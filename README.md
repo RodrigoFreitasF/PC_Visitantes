@@ -56,3 +56,6 @@
 <a href="https://github.com/julianomorais-cs/cs-projects/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=julianomorais-cs/cs-projects" />
 </a>
+<a href="https://github.com/lucas-fmp/lucas-fmp/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=lucas-fmp/lucas-fmp" />
+</a>
