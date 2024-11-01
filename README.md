@@ -2,7 +2,7 @@
   <h1 align="center">Visão geral do projeto</h2>
 
   <h2><p align="center">
-    Programa feito em Python e em SQL para gerenciamento de visitantes do CEUB.
+    Programa feito em Python e em SQL para gerenciamento de visitantes do CEUB. Com supervisionamento do professor Gilberto Hiragi.
     <br>
     </p>
 </p>
