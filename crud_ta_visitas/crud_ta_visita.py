@@ -53,12 +53,12 @@ class CRUDta_visita(tk.Tk):
         # Ajustar a largura das colunas
         self.tre_funcoes.column("idt_visitantes", width=10)
         self.tre_funcoes.column("nme_visitante", width=150)
-        self.tre_funcoes.column("rg_visitante", width=80)
-        self.tre_funcoes.column("dta_nascimento", width=100)
+        self.tre_funcoes.column("rg_visitante", width=100)
+        self.tre_funcoes.column("dta_nascimento", width=150)
         self.tre_funcoes.column("telefone", width=100)
-        self.tre_funcoes.column("eml_visitante", width=100)
-        self.tre_funcoes.column("pcd_visitante", width=20)
-        self.tre_funcoes.grid(row=3, column=0, columnspan=5, padx=self.PADX, pady=self.PADY)
+        self.tre_funcoes.column("eml_visitante", width=150)
+        self.tre_funcoes.column("pcd_visitante", width=50)
+        self.tre_funcoes.grid(row=3, column=0, columnspan=15, padx=self.PADX, pady=self.PADY)
 
         super().geometry("1000x1000") #Tamanho geral da interface
 
