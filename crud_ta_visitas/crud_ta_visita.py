@@ -5,9 +5,6 @@ from datetime import datetime
 from tkinter import ttk
 from tkinter import messagebox
 
-from IPython.utils.text import columnize
-from jupyter_server.nbconvert.handlers import date_format
-
 from util.db import SQL
 from c_visitas import IncluirVisitas
 
@@ -97,10 +94,11 @@ class CRUDta_visita(tk.Tk):
         nome = self.nome_var.get()
 
         # Chamar a função da sua classe utilitária para buscar os registros
-        cmd = ("select idt_visitantes as IDT, nme_visitante as visitantes, rg_visitante as RG, date_format(dta_nascimento, '%d/%m/%Y') as Data_Nascimento, telefone, pcd_visitante as PCD, "
-               "cod_aluno_acompanhante as Aluno, RA_aluno_acompanhante as RA_do_Aluno, date_format(dta_visita, '%d/%m/%Y') as Data_ , concat(hra_entrada_visita, ' - ', "
-               "hra_saida_visita) as Hora_Ent_Sai from tb_visitantes join ta_visitas on idt_visitantes=cod_visitantes left join tb_aluno_acompanhante "
-               "on idt_visitas=cod_aluno_acompanhante where nme_visitante LIKE CONCAT(%s, '%', '%','%')")
+        cmd = ("SELECT idt_visitantes as IDT, nme_visitante AS visitantes, rg_visitante AS RG, DATE_FORMAT(dta_nascimento, '%d/%m/%Y') AS Data_Nascimento, "
+                "telefone, pcd_visitante AS PCD, cod_aluno_acompanhante AS Aluno, RA_aluno_acompanhante AS RA_do_Aluno, "
+                "nme_campus AS Campus, dta_visita AS Data_, CONCAT(time_format(hra_entrada_visita, '%H:%i'), ' - ', time_format(hra_saida_visita, '%H:%i')) AS Hora_Ent_Sai "
+                "FROM ta_visitas INNER JOIN tb_visitantes ON idt_visitantes = cod_visitantes LEFT JOIN tb_aluno_acompanhante ON idt_aluno_acompanhante = cod_aluno_acompanhante "
+                "INNER JOIN tb_campus ON idt_campus = cod_campus where nme_visitante LIKE CONCAT(%s, '%', '%','%')")
 
         #"SELECT * FROM tb_funcao WHERE nme_funcao LIKE CONCAT('%', %s, '%') ORDER BY nme_funcao"
 
