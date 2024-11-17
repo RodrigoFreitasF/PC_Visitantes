@@ -89,8 +89,8 @@ class CRUDta_visita(tk.Tk):
         # Chamar a função da sua classe utilitária para buscar os registros
 
         cmd = (
-            "SELECT idt_visitas as IDT, DATE_FORMAT(dta_visita, '%d/%m/%Y') as Data_Visitas, TIME_FORMAT(hra_entrada_visita, '%H:%i') as Hora_De_Entrada, TIME_FORMAT(hra_saida_visita, '%H:%i') as Hora_de_Saida, cod_visitantes as Visitante, cod_campus as Campus, cod_aluno_acompanhante as Aluno "
-            "From ta_visitas WHERE dta_visita LIKE CONCAT(%s, '%', '%', '%', '%')")
+            "SELECT idt_visitas as IDT, DATE_FORMAT(dta_visita, '%d/%m/%Y') as Data_Visitas, TIME_FORMAT(hra_entrada_visita, '%H:%i') as Hora_De_Entrada, TIME_FORMAT(hra_saida_visita, '%H:%i') as Hora_de_Saida, cod_visitantes as Visitante, cod_campus as Campus, cod_aluno_acompanhante AS Aluno "
+            "From ta_visitas JOIN tb_visitantes ON idt_visitantes=cod_visitantes WHERE dta_visita LIKE CONCAT(%s, '%','%', '%', '%', '%')")
 
         funcoes = self.sql.get_list(cmd, [nome])
 
