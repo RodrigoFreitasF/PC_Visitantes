@@ -40,48 +40,76 @@ class IncluirVisitas:
         self.obrigatorios.append([self.et_nome, lb_nome.cget('text')])
         self.et_nome.grid(row=1, column=1, columnspan=2, padx=PADX, pady=PADY)'''
 
-        # Terceira linha - Receber a data da visita
+        #Receber a data da visita
         lb_dta_visita = tk.Label(self.popup, text="Data da visita", font='Helvetica 12 bold', fg='blue')
         lb_dta_visita.grid(row=2, column=0, padx=PADX, pady=PADY)
 
+        self.valor_dta = tk.StringVar()
+        self.et_dta = DateEntry(self.popup, textvariable=self.valor_dta, font='Helvetica 16 bold', foreground='green',
+                                  width=10, date_pattern='dd/mm/yyyy', date_format='%d/%m/%Y')
+        self.obrigatorios.append([self.et_dta, lb_dta_visita.cget('text')])
+        self.et_dta.grid(row=2, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+
+        #Input de hora de entrada
         lb_hra_ent = tk.Label(self.popup, text="Hora de entrada", font='Helvetica 12 bold', fg='blue')
         lb_hra_ent.grid(row=3, column=0, padx=PADX, pady=PADY)
 
-        self.valor_dta = tk.StringVar()
-        self.et_valor = DateEntry(self.popup, textvariable=self.valor_dta, font='Helvetica 16 bold', foreground='green',
-                                  width=10, date_pattern='dd/mm/yyyy', date_format='%d/%m/%Y')
-        self.obrigatorios.append([self.et_valor, lb_dta_visita.cget('text')])
-        self.et_valor.grid(row=2, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
-
-        #Input de hora de entrada
         self.valor_hra_ent = tk.StringVar()
-        self.et_valor2 = ttk.Entry(self.popup, textvariable=self.valor_hra_ent, font='Helvetica 16 bold', foreground='green',
+        self.et_hra_ent = ttk.Entry(self.popup, textvariable=self.valor_hra_ent, font='Helvetica 16 bold', foreground='green',
                                    width=10)
-        self.et_valor2.grid(row=3, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+        self.et_hra_ent.grid(row=3, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
-        # Quarta linha - Botão para incluir uma nova função
+        #Input de hora de saída
+        lb_hra_sai = tk.Label(self.popup, text="Hora de Saída", font='Helvetica 12 bold', fg='blue')
+        lb_hra_sai.grid(row=4, column=0, padx=PADX, pady=PADY)
+        self.valor_hra_sai = tk.StringVar()
+        self.et_hra_sai = ttk.Entry(self.popup, textvariable=self.valor_hra_sai, font='Helvetica 16 bold', foreground='green',
+                                   width=10)
+        self.et_hra_sai.grid(row=4, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+
+        #input de código do visitante
+        lb_cod_visitante = tk.Label(self.popup, text="IDT do visitante", font='Helvetica 12 bold', fg='blue')
+        lb_cod_visitante.grid(row=5, column=0, padx=PADX, pady=PADY)
+        self.valor_cod_visitante = tk.StringVar()
+        self.et_cod_visitante = ttk.Entry(self.popup, textvariable=self.valor_cod_visitante, font='Helvetica 16 bold',
+                                          foreground='green',
+                                          width=10)
+        self.et_cod_visitante.grid(row=5, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+
+        # input de código do campus
+        lb_cod_campus = tk.Label(self.popup, text="Código do Campus", font='Helvetica 12 bold', fg='blue')
+        lb_cod_campus.grid(row=6, column=0, padx=PADX, pady=PADY)
+        self.valor_cod_campus = tk.StringVar()
+        self.et_cod_campus = ttk.Entry(self.popup, textvariable=self.valor_cod_campus, font='Helvetica 16 bold',
+                                       foreground='green',
+                                       width=10)
+        self.et_cod_campus.grid(row=6, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+
+        #Botão para incluir uma nova função
         self.bt_salvar = tk.Button(self.popup, text="Incluir Novo Projeto", command=lambda: self.salvar(janela_mestre),
                                    font='Helvetica 12 bold',
                                    fg='white',
                                    bg='blue')
-        self.bt_salvar.grid(row=4, column=0, columnspan=3, padx=PADX, pady=PADY)
-        self.et_nome.focus()
+        self.bt_salvar.grid(row=7, column=0, columnspan=3, padx=PADX, pady=PADY)
+        self.et_dta.focus()
 
     # Botão para confirmar a inclusão
     def salvar(self, janela_mestre):
         retorno = val.todos_campos_preenchidos(self.obrigatorios)
         if retorno[0]:
-            nome = self.nome_var.get()
-            valor1 = self.valor_dta.get()
-            valor1conv = datetime.strptime(valor1, '%d/%m/%Y').date()
-            valor2 = self.valor_hra_ent.get()
-            valor2conv = datetime.strptime(valor2, '%d/%m/%Y').date()
+            dta_visita = self.valor_dta.get()
+            dta_conv = datetime.strptime(dta_visita, '%d/%m/%Y').date()
+            hra_entrada_visita = self.valor_hra_ent.get()
+            hra_saida_visita = self.valor_hra_sai.get()
+            cod_visitante = self.valor_cod_visitante.get()
+            cod_campus = self.valor_cod_campus.get()
+
             # Inserir os dados no banco de dados
             cmd = "insert into ta_visitas (dta_visita, hra_entrada_visita, hra_saida_visita, cod_visitantes, cod_campus) values (%s, %s, %s, %s, %s)"
-            if valor2 == '':
-                id = janela_mestre.sql.insert(cmd, (nome, valor1conv, None))
+            if hra_saida_visita == '':
+                id = janela_mestre.sql.insert(cmd, (dta_conv, hra_entrada_visita, None, cod_visitante, cod_campus))
             else:
-                id = janela_mestre.sql.insert(cmd, (nome, valor1conv,valor2conv))
+                id = janela_mestre.sql.insert(cmd, (dta_conv, hra_entrada_visita, hra_saida_visita, cod_visitante, cod_campus))
             # Fechar a janela pop-up
             self.popup.destroy()
         else:
