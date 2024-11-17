@@ -25,12 +25,12 @@ class CRUDta_visita(tk.Tk):
         titulo.grid(row=0, column=0, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # Segunda linha - Parâmetro de consulta
-        lb_nome = tk.Label(self, text="Nome do visitante", font='Helvetica 12 bold', fg='blue')
+        lb_nome = tk.Label(self, text="Data de visita", font='Helvetica 12 bold', fg='blue')
         lb_nome.grid(row=1, column=0, padx=self.PADX, pady=self.PADY)
 
-        self.nome_var = tk.StringVar()
-        self.et_nome = ttk.Entry(self, textvariable=self.nome_var, font='Helvetica 16 bold', foreground='green')
-        self.et_nome.grid(row=1, column=1, padx=self.PADX, pady=self.PADY)
+        self.data = tk.StringVar()
+        self.et_dta = ttk.Entry(self, textvariable=self.data, font='Helvetica 16 bold', foreground='green')
+        self.et_dta.grid(row=1, column=1, padx=self.PADX, pady=self.PADY)
 
         self.bt_consultar = tk.Button(self, text="Consultar", command=self.consultar, font='Helvetica 12 bold',
                                       fg='white', bg='purple')
@@ -41,33 +41,26 @@ class CRUDta_visita(tk.Tk):
         style.theme_use('clam')
 
         style.configure("Custom.Treeview", font=("Arial", 12), foreground="blue")
-        self.tre_funcoes = ttk.Treeview(self, columns=("idt_visitantes", "nme_visitante", "rg_visitante", "dta_nascimento",
-                                                       "pcd_visitante", "RA_aluno_acompanhante", "dta_visita", "Hora_Ent_Sai"), show="headings", style="Custom.Treeview",height=20)
+        self.tre_funcoes = ttk.Treeview(self, columns=("idt_visitas", "dta_visita", "hra_entrada_visita", "hra_saida_visita",
+                                                       "cod_visitantes", "cod_campus", "cod_aluno_acompanhante"), show="headings", style="Custom.Treeview",height=20)
 
         # Configurar as colunas
-        self.tre_funcoes.heading("idt_visitantes", text="IDT do visitante")
-        self.tre_funcoes.heading("nme_visitante", text="Nome do visitante")
-        self.tre_funcoes.heading("rg_visitante", text="RG do visitante")
-        self.tre_funcoes.heading("dta_nascimento", text="Data de nascimento")
-        #self.tre_funcoes.heading("telefone", text="Telefone") #telefone
-        #self.tre_funcoes.heading("eml_visitante", text="Email do visitante")#email
-        self.tre_funcoes.heading("pcd_visitante", text="PCD?") #PCD
-        #self.tre_funcoes.heading("cod_aluno_acompanhante", text="Aluno acompanhante")
-        self.tre_funcoes.heading("RA_aluno_acompanhante", text="Aluno acompanhante")
-        self.tre_funcoes.heading("dta_visita", text="Dia da visita")
-        self.tre_funcoes.heading("Hora_Ent_Sai", text="Hora de visita")
+        self.tre_funcoes.heading("idt_visitas", text="IDT da visita")
+        self.tre_funcoes.heading("dta_visita", text="Data da visita")
+        self.tre_funcoes.heading("hra_entrada_visita", text="Hora de entrada")
+        self.tre_funcoes.heading("hra_saida_visita", text="Hora de saída")
+        self.tre_funcoes.heading("cod_visitantes", text="IDT do visitante") #PCD
+        self.tre_funcoes.heading("cod_campus", text="Campus")
+        self.tre_funcoes.heading("cod_aluno_acompanhante", text="Aluno acompanhando")
+
         # Ajustar a largura das colunas
-        self.tre_funcoes.column("idt_visitantes", width=15, anchor=tk.CENTER)
-        self.tre_funcoes.column("nme_visitante", width=250, anchor=tk.CENTER)
-        self.tre_funcoes.column("rg_visitante", width=100, anchor=tk.CENTER)
-        self.tre_funcoes.column("dta_nascimento", width=120, anchor=tk.CENTER)
-        #self.tre_funcoes.column("telefone", width=100, anchor=tk.CENTER)
-        #self.tre_funcoes.column("eml_visitante", width=150)
-        self.tre_funcoes.column("pcd_visitante", width=50, anchor=tk.CENTER)
-        #self.tre_funcoes.column("cod_aluno_acompanhante", width=100)
-        self.tre_funcoes.column("RA_aluno_acompanhante", width=125, anchor=tk.CENTER)
-        self.tre_funcoes.column("dta_visita", width=100, anchor=tk.CENTER)
-        self.tre_funcoes.column("Hora_Ent_Sai", width=170, anchor=tk.CENTER)
+        self.tre_funcoes.column("idt_visitas", width=15, anchor=tk.CENTER)
+        self.tre_funcoes.column("dta_visita", width=250, anchor=tk.CENTER)
+        self.tre_funcoes.column("hra_entrada_visita", width=100, anchor=tk.CENTER)
+        self.tre_funcoes.column("hra_saida_visita", width=120, anchor=tk.CENTER)
+        self.tre_funcoes.column("cod_visitantes", width=125, anchor=tk.CENTER)
+        self.tre_funcoes.column("cod_campus", width=55, anchor=tk.CENTER)
+        self.tre_funcoes.column("cod_aluno_acompanhante", width=150, anchor=tk.CENTER)
         self.tre_funcoes.grid(row=3, column=0, columnspan=15, padx=self.PADX, pady=self.PADY)
 
         super().geometry("1000x650") #Tamanho geral da interface
@@ -91,24 +84,21 @@ class CRUDta_visita(tk.Tk):
 
     def consultar(self):
         # Obter o termo de busca
-        nome = self.nome_var.get()
+        nome = self.et_dta.get()
 
         # Chamar a função da sua classe utilitária para buscar os registros
-        cmd = ("SELECT idt_visitantes as IDT, nme_visitante AS visitantes, rg_visitante AS RG, DATE_FORMAT(dta_nascimento, '%d/%m/%Y') AS Data_Nascimento, "
-                "telefone, pcd_visitante AS PCD, cod_aluno_acompanhante AS Aluno, RA_aluno_acompanhante AS RA_do_Aluno, "
-                "nme_campus AS Campus, dta_visita AS Data_, CONCAT(time_format(hra_entrada_visita, '%H:%i'), ' - ', time_format(hra_saida_visita, '%H:%i')) AS Hora_Ent_Sai "
-                "FROM ta_visitas INNER JOIN tb_visitantes ON idt_visitantes = cod_visitantes LEFT JOIN tb_aluno_acompanhante ON idt_aluno_acompanhante = cod_aluno_acompanhante "
-                "INNER JOIN tb_campus ON idt_campus = cod_campus where nme_visitante LIKE CONCAT(%s, '%', '%','%')")
 
-        #"SELECT * FROM tb_funcao WHERE nme_funcao LIKE CONCAT('%', %s, '%') ORDER BY nme_funcao"
+        cmd = (
+            "SELECT idt_visitas as IDT, DATE_FORMAT(dta_visita, '%d/%m/%Y') as Data_Visitas, TIME_FORMAT(hra_entrada_visita, '%H:%i') as Hora_De_Entrada, TIME_FORMAT(hra_saida_visita, '%H:%i') as Hora_de_Saida, cod_visitantes as Visitante, cod_campus as Campus, cod_aluno_acompanhante as Aluno "
+            "From ta_visitas WHERE dta_visita LIKE CONCAT(%s, '%', '%', '%', '%')")
 
         funcoes = self.sql.get_list(cmd, [nome])
 
         self.limpar_tabela()
         for funcao in funcoes:
-            self.tre_funcoes.insert("", tk.END, values=(funcao['IDT'], funcao['visitantes'], funcao['RG'],
-                                                        funcao['Data_Nascimento'], funcao['PCD'],
-                                                        funcao['RA_do_Aluno'], funcao['Data_'], funcao['Hora_Ent_Sai']))
+            self.tre_funcoes.insert("", tk.END, values=(funcao['IDT'], funcao['Data_Visitas'], funcao['Hora_De_Entrada'],
+                                                        funcao['Hora_de_Saida'], funcao['Visitante'],
+                                                        funcao['Campus'], funcao['Aluno']))
 
     def pegar_idt(self):
         selecao = self.tre_funcoes.selection()
@@ -125,7 +115,7 @@ class CRUDta_visita(tk.Tk):
 
     def incluir(self):
         c = IncluirVisitas(self)
-        self.et_nome.delete(0, tk.END)
+        self.et_dta.delete(0, tk.END)
         self.limpar_tabela()
 
     def alterar(self):
