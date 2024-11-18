@@ -60,5 +60,5 @@
   <img src="https://contrib.rocks/image?repo=lucas-fmp/lucas-fmp" />
 </a>
 <a href="https://github.com/JoaoAdelson/Progresso-em-Python/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=JoaoAdelson/Progresso-em-Python" />
+  <img src="https://contrib.rocks/image?repo=JoaoAdelson/JoaoAdelson" />
 </a>
