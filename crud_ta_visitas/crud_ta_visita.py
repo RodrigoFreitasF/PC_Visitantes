@@ -9,7 +9,7 @@ from util.db import SQL
 from c_visitas import IncluirVisitas
 
 from u_visitas import AlterarVisitas
-#from d_projeto import ExcluirProjeto
+from d_visitas import ExcluirVisitas
 
 class CRUDta_visita(tk.Tk):
     def __init__(self):
@@ -75,9 +75,9 @@ class CRUDta_visita(tk.Tk):
         self.bt_excluir = tk.Button(self, text="Excluir", command=self.excluir, font='Helvetica 12 bold', fg='white',
                                     bg='purple',width=15)
         self.bt_excluir.grid(row=4, column=2, padx=self.PADX, pady=self.PADY)
-        self.bt_insert_visitante = tk.Button(self, text="Excluir", command=self.excluir, font='Helvetica 12 bold', fg='black',
-                                    bg='yellow', width=15)
-        self.bt_insert_visitante.grid(row=4, column=4, padx=self.PADX, pady=self.PADY)
+        self.bt_checkout = tk.Button(self, text="Checkout", command=self.checkout, font='Helvetica 12 bold', fg='white',
+                                    bg='purple', width=15)
+        self.bt_checkout.grid(row=4, column=3, padx=self.PADX, pady=self.PADY)
 
         # Criando o objeto que irá acessar o banco de dados
         self.sql = SQL(esquema='bd_gestao_visitantes', pwd='81975907')
@@ -128,8 +128,16 @@ class CRUDta_visita(tk.Tk):
             messagebox.showerror("Erro: Escolha uma função", "Marque uma linha da tabela para selecionar o projeto")
 
     def excluir(self):
-        pass
+        idt = self.pegar_idt()
+        if idt != 0:
+            d = ExcluirVisitas(self, idt)
+            self.et_dta.delete(0, tk.END)
+            self.limpar_tabela()
+        else:
+            messagebox.showerror("Erro: Escolha uma função", "Marque uma linha da tabela para selecionar a função")
 
+    def checkout(self):
+        pass
 
 if __name__ == '__main__':
     app = CRUDta_visita()
