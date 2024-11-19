@@ -8,7 +8,7 @@ from tkinter import messagebox
 from util.db import SQL
 from c_visitas import IncluirVisitas
 
-#from u_projeto import AlterarProjeto
+from u_visitas import AlterarVisitas
 #from d_projeto import ExcluirProjeto
 
 class CRUDta_visita(tk.Tk):
@@ -119,7 +119,13 @@ class CRUDta_visita(tk.Tk):
         self.limpar_tabela()
 
     def alterar(self):
-        pass
+        idt = self.pegar_idt()
+        if idt != 0:
+            u = AlterarVisitas(self, idt)
+            self.et_dta.delete(0, tk.END)
+            self.limpar_tabela()
+        else:
+            messagebox.showerror("Erro: Escolha uma função", "Marque uma linha da tabela para selecionar o projeto")
 
     def excluir(self):
         pass
