@@ -1,1 +1,10 @@
-#CRUD executável de ta_visitas
+#CRUD executável de ta_visitas;
+
+
+
+
+
+
+
+
+
