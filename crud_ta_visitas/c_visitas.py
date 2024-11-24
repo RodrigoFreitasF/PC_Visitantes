@@ -6,10 +6,6 @@ from tkinter import messagebox
 
 from tktimepicker import AnalogPicker, AnalogThemes
 
-#from jupyterlab.extensions import entry
-
-#import dateconverter
-
 import util.validate as val
 from tkcalendar import DateEntry
 
@@ -21,75 +17,73 @@ class IncluirVisitas:
         self.popup = tk.Toplevel(janela_mestre)
         self.popup.grab_set()
 
+        # Constantes de cores
+        cor_btn = '#43054e'
+        fonte_btn = 'Jakob 12 bold'
+        cor_dados = '#662c92'
+        cor_titulo = '#bf0087'
+
         # Constantes
         PADX = 10
         PADY = 10
         self.obrigatorios = []
 
         # Primeira linha - Título
-        titulo = tk.Label(self.popup, text="Incluir Visitas", font='Helvetica 16 bold', fg='blue')
+        titulo = tk.Label(self.popup, text="Incluir Visitas", font='Helvetica 16 bold', fg=cor_titulo)
         titulo.grid(row=0, column=0, columnspan=3, padx=PADX, pady=PADY)
 
-        # Segunda linha - Receber a data da visita
-        '''lb_nome = tk.Label(self.popup, text="Dia da visita", font='Helvetica 12 bold', fg='blue')
-        lb_nome.grid(row=1, column=0, padx=PADX, pady=PADY)
-
-        self.nome_var = tk.StringVar()
-        self.et_nome = ttk.Entry(self.popup, textvariable=self.nome_var, font='Helvetica 16 bold', foreground='green', width=30)
-        val.limitar_tamanho(self.et_nome, 50)
-        self.obrigatorios.append([self.et_nome, lb_nome.cget('text')])
-        self.et_nome.grid(row=1, column=1, columnspan=2, padx=PADX, pady=PADY)'''
-
         #Receber a data da visita
-        lb_dta_visita = tk.Label(self.popup, text="Data da visita", font='Helvetica 12 bold', fg='blue')
+        lb_dta_visita = tk.Label(self.popup, text="Data da visita", font='Helvetica 12 bold', fg=cor_titulo)
         lb_dta_visita.grid(row=2, column=0, padx=PADX, pady=PADY)
 
-        self.valor_dta = tk.StringVar()
-        self.et_dta = DateEntry(self.popup, textvariable=self.valor_dta, font='Helvetica 16 bold', foreground='green',
-                                  width=10, date_pattern='dd/mm/yyyy', date_format='%d/%m/%Y')
+        self.valor_dta = ttk.Style()
+        self.et_dta = DateEntry(self.popup, textvariable=self.valor_dta, font='Helvetica 16 bold',
+                                width=10, date_pattern='dd/mm/yyyy', date_format='%d/%m/%Y', locale='pt_BR',firstweekday="sunday" ,
+                                foreground='#ec0089', weekendforeground='Red', weekendbackground='pink', headersforeground='#43054e',
+                                selectbackground='#ec0089')
         self.obrigatorios.append([self.et_dta, lb_dta_visita.cget('text')])
         self.et_dta.grid(row=2, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         #Input de hora de entrada
-        lb_hra_ent = tk.Label(self.popup, text="Hora de entrada", font='Helvetica 12 bold', fg='blue')
+        lb_hra_ent = tk.Label(self.popup, text="Hora de entrada", font='Helvetica 12 bold', fg=cor_titulo)
         lb_hra_ent.grid(row=3, column=0, padx=PADX, pady=PADY)
 
         self.valor_hra_ent = tk.StringVar()
-        self.et_hra_ent = ttk.Entry(self.popup, textvariable=self.valor_hra_ent, font='Helvetica 16 bold', foreground='green',
+        self.et_hra_ent = ttk.Entry(self.popup, textvariable=self.valor_hra_ent, font='Helvetica 16 bold', foreground=cor_dados,
                                    width=10)
         self.et_hra_ent.grid(row=3, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         #Input de hora de saída
-        lb_hra_sai = tk.Label(self.popup, text="Hora de Saída", font='Helvetica 12 bold', fg='blue')
+        lb_hra_sai = tk.Label(self.popup, text="Hora de Saída", font='Helvetica 12 bold', fg=cor_titulo)
         lb_hra_sai.grid(row=4, column=0, padx=PADX, pady=PADY)
         self.valor_hra_sai = tk.StringVar()
-        self.et_hra_sai = ttk.Entry(self.popup, textvariable=self.valor_hra_sai, font='Helvetica 16 bold', foreground='green',
+        self.et_hra_sai = ttk.Entry(self.popup, textvariable=self.valor_hra_sai, font='Helvetica 16 bold', foreground=cor_dados,
                                    width=10)
         self.et_hra_sai.grid(row=4, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         #input de código do visitante
-        lb_cod_visitante = tk.Label(self.popup, text="IDT do visitante", font='Helvetica 12 bold', fg='blue')
+        lb_cod_visitante = tk.Label(self.popup, text="IDT do visitante", font='Helvetica 12 bold', fg=cor_titulo)
         lb_cod_visitante.grid(row=5, column=0, padx=PADX, pady=PADY)
         self.valor_cod_visitante = tk.StringVar()
         self.et_cod_visitante = ttk.Entry(self.popup, textvariable=self.valor_cod_visitante, font='Helvetica 16 bold',
-                                          foreground='green',
+                                          foreground=cor_dados,
                                           width=10)
         self.et_cod_visitante.grid(row=5, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         # input de código do campus
-        lb_cod_campus = tk.Label(self.popup, text="Código do Campus", font='Helvetica 12 bold', fg='blue')
+        lb_cod_campus = tk.Label(self.popup, text="Código do Campus", font='Helvetica 12 bold', fg=cor_titulo)
         lb_cod_campus.grid(row=6, column=0, padx=PADX, pady=PADY)
         self.valor_cod_campus = tk.StringVar()
         self.et_cod_campus = ttk.Entry(self.popup, textvariable=self.valor_cod_campus, font='Helvetica 16 bold',
-                                       foreground='green',
+                                       foreground=cor_dados,
                                        width=10)
         self.et_cod_campus.grid(row=6, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         #Botão para incluir uma nova função
-        self.bt_salvar = tk.Button(self.popup, text="Incluir Novo Projeto", command=lambda: self.salvar(janela_mestre),
-                                   font='Helvetica 12 bold',
+        self.bt_salvar = tk.Button(self.popup, text="Incluir nova visita", command=lambda: self.salvar(janela_mestre),
+                                   font=fonte_btn,
                                    fg='white',
-                                   bg='blue')
+                                   bg=cor_btn)
         self.bt_salvar.grid(row=7, column=0, columnspan=3, padx=PADX, pady=PADY)
         self.et_dta.focus()
 

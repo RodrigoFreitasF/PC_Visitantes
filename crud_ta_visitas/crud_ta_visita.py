@@ -1,15 +1,15 @@
 #CRUD executável de ta_visitas
 
 import tkinter as tk
-from datetime import datetime
-from tkinter import ttk
+from tkinter import ttk, PhotoImage
 from tkinter import messagebox
 
 from util.db import SQL
 from c_visitas import IncluirVisitas
-
 from u_visitas import AlterarVisitas
 from d_visitas import ExcluirVisitas
+
+from PIL import Image, ImageTk
 
 class CRUDta_visita(tk.Tk):
     def __init__(self):
@@ -18,29 +18,37 @@ class CRUDta_visita(tk.Tk):
         self.PADX = 10
         self.PADY = 10
 
+        #Contantes de cores
+        cor_btn = '#43054e'
+        fonte_btn = 'Jakob 12 bold'
+        cor_dados = '#662c92'
+        cor_titulo = '#bf0087'
+
+
+
         self.title("CRUD - Tabela de Visitas")
 
         # Primeira linha - Título
-        titulo = tk.Label(self, text="Cadastro / consulta de visitas", font='Helvetica 16 bold', fg='blue')
+        titulo = tk.Label(self, text="Cadastro / consulta de visitas", font='Helvetica 16 bold', fg=cor_titulo)
         titulo.grid(row=0, column=0, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # Segunda linha - Parâmetro de consulta
-        lb_nome = tk.Label(self, text="Data de visita", font='Helvetica 12 bold', fg='blue')
+        lb_nome = tk.Label(self, text="Data de visita", font='Helvetica 12 bold', fg=cor_titulo)
         lb_nome.grid(row=1, column=0, padx=self.PADX, pady=self.PADY)
 
         self.data = tk.StringVar()
-        self.et_dta = ttk.Entry(self, textvariable=self.data, font='Helvetica 16 bold', foreground='green')
+        self.et_dta = ttk.Entry(self, textvariable=self.data, font='Helvetica 16 bold', foreground=cor_btn)
         self.et_dta.grid(row=1, column=1, padx=self.PADX, pady=self.PADY)
 
-        self.bt_consultar = tk.Button(self, text="Consultar", command=self.consultar, font='Helvetica 12 bold',
-                                      fg='white', bg='purple')
+        self.bt_consultar = tk.Button(self, text="CONSULTAR", command=self.consultar, font=fonte_btn,
+                                      fg='white', bg=cor_btn, border=0)
         self.bt_consultar.grid(row=1, column=2, padx=self.PADX, pady=self.PADY)
 
         # Treeview para exibir os resultado da consulta no banco de dados
         style = ttk.Style()
-        style.theme_use('clam')
+        style.theme_use('vista')
 
-        style.configure("Custom.Treeview", font=("Arial", 12), foreground="blue")
+        style.configure("Custom.Treeview", font=("Jakob", 12), foreground=cor_dados)
         self.tre_funcoes = ttk.Treeview(self, columns=("idt_visitas", "dta_visita", "hra_entrada_visita", "hra_saida_visita",
                                                        "cod_visitantes", "cod_campus", "cod_aluno_acompanhante"), show="headings", style="Custom.Treeview",height=20)
 
@@ -49,7 +57,7 @@ class CRUDta_visita(tk.Tk):
         self.tre_funcoes.heading("dta_visita", text="Data da visita")
         self.tre_funcoes.heading("hra_entrada_visita", text="Hora de entrada")
         self.tre_funcoes.heading("hra_saida_visita", text="Hora de saída")
-        self.tre_funcoes.heading("cod_visitantes", text="IDT do visitante") #PCD
+        self.tre_funcoes.heading("cod_visitantes", text="IDT do visitante")
         self.tre_funcoes.heading("cod_campus", text="Campus")
         self.tre_funcoes.heading("cod_aluno_acompanhante", text="Aluno acompanhando")
 
@@ -60,27 +68,27 @@ class CRUDta_visita(tk.Tk):
         self.tre_funcoes.column("hra_saida_visita", width=120, anchor=tk.CENTER)
         self.tre_funcoes.column("cod_visitantes", width=125, anchor=tk.CENTER)
         self.tre_funcoes.column("cod_campus", width=55, anchor=tk.CENTER)
-        self.tre_funcoes.column("cod_aluno_acompanhante", width=150, anchor=tk.CENTER)
+        self.tre_funcoes.column("cod_aluno_acompanhante", width=250, anchor=tk.CENTER)
         self.tre_funcoes.grid(row=3, column=0, columnspan=15, padx=self.PADX, pady=self.PADY)
 
-        super().geometry("1000x650") #Tamanho geral da interface
+        #super().geometry("1000x650") #Tamanho geral da interface
 
         # Quarta linha com os botões de operações
-        self.bt_incluir = tk.Button(self, text="Incluir", command=self.incluir, font='Helvetica 12 bold', fg='white',
-                                    bg='purple',width=15)
+        self.bt_incluir = tk.Button(self, text="INCLUIR", command=self.incluir, font='Helvetica 12 bold', fg='white',
+                                    bg=cor_btn,width=15, border=0)
         self.bt_incluir.grid(row=4, column=0, padx=self.PADX, pady=self.PADY)
-        self.bt_alterar = tk.Button(self, text="Alterar", command=self.alterar, font='Helvetica 12 bold', fg='white',
-                                    bg='purple',width=15)
+        self.bt_alterar = tk.Button(self, text="ALTERAR", command=self.alterar, font='Helvetica 12 bold', fg='white',
+                                    bg=cor_btn,width=15, border=0)
         self.bt_alterar.grid(row=4, column=1, padx=self.PADX, pady=self.PADY)
-        self.bt_excluir = tk.Button(self, text="Excluir", command=self.excluir, font='Helvetica 12 bold', fg='white',
-                                    bg='purple',width=15)
+        self.bt_excluir = tk.Button(self, text="EXCLUIR", command=self.excluir, font='Helvetica 12 bold', fg='white',
+                                    bg=cor_btn,width=15, border=0)
         self.bt_excluir.grid(row=4, column=2, padx=self.PADX, pady=self.PADY)
-        self.bt_checkout = tk.Button(self, text="Checkout", command=self.checkout, font='Helvetica 12 bold', fg='white',
-                                    bg='purple', width=15)
+        self.bt_checkout = tk.Button(self, text="CHECKOUT", command=self.checkout, font='Helvetica 12 bold', fg='white',
+                                    bg=cor_btn,width=15, border=0)
         self.bt_checkout.grid(row=4, column=3, padx=self.PADX, pady=self.PADY)
 
         # Criando o objeto que irá acessar o banco de dados
-        self.sql = SQL(esquema='bd_gestao_visitantes', pwd='81975907')
+        self.sql = SQL(esquema='bd_gestao_visitantes')
 
     def consultar(self):
         # Obter o termo de busca
