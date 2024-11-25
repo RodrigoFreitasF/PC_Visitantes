@@ -17,17 +17,17 @@
 
 # Descrição
 
-<!-- realizar uma descrição detalhada do projeto -->
-
 # Como utilizar
 
-### Links para download: 
+- [Wiki do projeto](https://github.com/KerubinSM5/PC_Visitantes/wiki/Introdu%C3%A7%C3%A3o)
 
 ### Clone o repositório:
 
 * Em um terminal ou diretamente pelo Pycharm, clone o repositório do projeto:
+```
+git clone https://github.com/KerubinSM5/PC_Visitantes/
+```
 
-* git clone https://github.com/KerubinSM5/PC_Visitantes/
 ### importe o projeto no Pycharm:
 
 ### Execute o projeto:
