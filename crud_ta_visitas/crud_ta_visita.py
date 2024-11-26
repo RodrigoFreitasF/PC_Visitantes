@@ -9,7 +9,6 @@ from c_visitas import IncluirVisitas
 from u_visitas import AlterarVisitas
 from d_visitas import ExcluirVisitas
 
-from PIL import Image, ImageTk
 
 class CRUDta_visita(tk.Tk):
     def __init__(self):
@@ -24,8 +23,7 @@ class CRUDta_visita(tk.Tk):
         cor_dados = '#662c92'
         cor_titulo = '#bf0087'
 
-
-
+        # titulo da janela
         self.title("CRUD - Tabela de Visitas")
 
         # Primeira linha - Título
@@ -50,7 +48,7 @@ class CRUDta_visita(tk.Tk):
 
         style.configure("Custom.Treeview", font=("Jakob", 12), foreground=cor_dados)
         self.tre_funcoes = ttk.Treeview(self, columns=("idt_visitas", "dta_visita", "hra_entrada_visita", "hra_saida_visita",
-                                                       "cod_visitantes", "cod_campus", "cod_aluno_acompanhante"), show="headings", style="Custom.Treeview",height=20)
+                                                       "cod_visitantes", "cod_locais", "cod_aluno_acompanhante"), show="headings", style="Custom.Treeview",height=20)
 
         # Configurar as colunas
         self.tre_funcoes.heading("idt_visitas", text="IDT da visita")
@@ -58,16 +56,16 @@ class CRUDta_visita(tk.Tk):
         self.tre_funcoes.heading("hra_entrada_visita", text="Hora de entrada")
         self.tre_funcoes.heading("hra_saida_visita", text="Hora de saída")
         self.tre_funcoes.heading("cod_visitantes", text="IDT do visitante")
-        self.tre_funcoes.heading("cod_campus", text="Campus")
+        self.tre_funcoes.heading("cod_locais", text="Local")
         self.tre_funcoes.heading("cod_aluno_acompanhante", text="Aluno acompanhando")
 
         # Ajustar a largura das colunas
         self.tre_funcoes.column("idt_visitas", width=15, anchor=tk.CENTER)
         self.tre_funcoes.column("dta_visita", width=250, anchor=tk.CENTER)
-        self.tre_funcoes.column("hra_entrada_visita", width=100, anchor=tk.CENTER)
+        self.tre_funcoes.column("hra_entrada_visita", width=120, anchor=tk.CENTER)
         self.tre_funcoes.column("hra_saida_visita", width=120, anchor=tk.CENTER)
         self.tre_funcoes.column("cod_visitantes", width=125, anchor=tk.CENTER)
-        self.tre_funcoes.column("cod_campus", width=55, anchor=tk.CENTER)
+        self.tre_funcoes.column("cod_locais", width=55, anchor=tk.CENTER)
         self.tre_funcoes.column("cod_aluno_acompanhante", width=250, anchor=tk.CENTER)
         self.tre_funcoes.grid(row=3, column=0, columnspan=15, padx=self.PADX, pady=self.PADY)
 
@@ -97,16 +95,20 @@ class CRUDta_visita(tk.Tk):
         # Chamar a função da sua classe utilitária para buscar os registros
 
         cmd = (
-            "SELECT idt_visitas as IDT, DATE_FORMAT(dta_visita, '%d/%m/%Y') as Data_Visitas, TIME_FORMAT(hra_entrada_visita, '%H:%i') as Hora_De_Entrada, TIME_FORMAT(hra_saida_visita, '%H:%i') as Hora_de_Saida, cod_visitantes as Visitante, cod_campus as Campus, cod_aluno_acompanhante AS Aluno "
+            "SELECT idt_visitas as IDT, DATE_FORMAT(dta_visita, '%d/%m/%Y') as Data_Visitas, TIME_FORMAT(hra_entrada_visita, '%H:%i') as Hora_De_Entrada, TIME_FORMAT(hra_saida_visita, '%H:%i') as Hora_De_Saida, cod_visitantes as Visitante, cod_locais as Local, cod_aluno_acompanhante AS Aluno "
             "From ta_visitas JOIN tb_visitantes ON idt_visitantes=cod_visitantes WHERE dta_visita LIKE CONCAT(%s, '%','%', '%', '%', '%')")
 
         funcoes = self.sql.get_list(cmd, [nome])
 
         self.limpar_tabela()
         for funcao in funcoes:
+            if funcao['Hora_De_Saida'] is None:
+                funcao['Hora_De_Saida'] = 'C.O. Pendente'
+            if funcao['Hora_De_Entrada'] is None:
+                funcao['Hora_De_Entrada'] = 'C.I. Pendente'
             self.tre_funcoes.insert("", tk.END, values=(funcao['IDT'], funcao['Data_Visitas'], funcao['Hora_De_Entrada'],
-                                                        funcao['Hora_de_Saida'], funcao['Visitante'],
-                                                        funcao['Campus'], funcao['Aluno']))
+                                                        funcao['Hora_De_Saida'], funcao['Visitante'],
+                                                        funcao['Local'], funcao['Aluno']))
 
     def pegar_idt(self):
         selecao = self.tre_funcoes.selection()
