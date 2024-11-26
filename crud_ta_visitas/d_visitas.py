@@ -39,7 +39,7 @@ class ExcluirVisitas:
         self.idt_var = tk.StringVar()
         self.idt_var.set(funcao['idt_visitas'])
         self.lb_dado_idt = tk.Label(self.popup, textvariable=self.idt_var, font='Helvetica 16 bold',
-                                    foreground=cor_titulo)
+                                    foreground=cor_dados)
         self.lb_dado_idt.grid(row=2, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         # Terceira linha - Receber a data da visita
@@ -53,7 +53,7 @@ class ExcluirVisitas:
         self.nome_var.set(dataf.strftime('%d/%m/%Y'))
 
         self.lb_dado_nome = tk.Label(self.popup, textvariable=self.nome_var, font='Helvetica 16 bold',
-                                     foreground=cor_titulo)
+                                     foreground=cor_dados)
         self.lb_dado_nome.grid(row=3, column=1, columnspan=2, padx=PADX, pady=PADY)
 
         # Receber a hora de entrada
@@ -61,27 +61,29 @@ class ExcluirVisitas:
         lb_valor.grid(row=4, column=0, padx=PADX, pady=PADY)
 
         self.valor_var = tk.StringVar()
-
         hora_sql = funcao['hra_entrada_visita']
+        if hora_sql is None:
+            hora_sql = '00:00:00'
         horaef = datetime.strptime(str(hora_sql), '%H:%M:%S').time()
         self.valor_var.set(horaef.strftime('%H:%M'))
 
-        self.lb_dado_valor = tk.Label(self.popup, textvariable=self.valor_var, font='Helvetica 16 bold',
-                                      foreground=cor_titulo)
-        self.lb_dado_valor.grid(row=4, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+        self.lb_dado_valor1 = tk.Label(self.popup, textvariable=self.valor_var, font='Helvetica 16 bold',
+                                      foreground=cor_dados)
+        self.lb_dado_valor1.grid(row=4, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         # Receber a hora de saida
         lb_hra_saida = tk.Label(self.popup, text="Hora de saida", font='Helvetica 12 bold', fg=cor_titulo)
         lb_hra_saida.grid(row=5, column=0, padx=PADX, pady=PADY)
 
-        self.valor_var2 = tk.StringVar()
-
+        self.valor_hra_saida = tk.StringVar()
         hora_sql2 = funcao['hra_saida_visita']
+        if hora_sql2 is None:
+            hora_sql2 = '00:00:00'
         horasf = datetime.strptime(str(hora_sql2), '%H:%M:%S').time()
-        self.valor_var2.set(horasf.strftime('%H:%M'))
-        self.lb_dado_valor = tk.Label(self.popup, textvariable=self.valor_var2, font='Helvetica 16 bold',
-                                      foreground=cor_titulo)
-        self.lb_dado_valor.grid(row=5, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+        self.valor_hra_saida.set(horasf.strftime('%H:%M'))
+        self.lb_dado_valor2 = tk.Label(self.popup, textvariable=self.valor_hra_saida, font='Helvetica 16 bold',
+                                      foreground=cor_dados)
+        self.lb_dado_valor2.grid(row=5, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         # Quinta Linha - Operação de Excluir
         self.bt_excluir = tk.Button(self.popup, text="Excluir o registro", command=lambda: self.excluir(janela_mestre),
