@@ -64,7 +64,7 @@ class AlterarVisitas:
         self.obrigatorios.append([self.et_hra_ent])
         self.et_hra_ent.grid(row=6, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
-        #Hora de saída
+        '''#Hora de saída
         lb_hra_saida = tk.Label(self.popup, text="Hora de saída", font='Helvetica 12 bold', fg=cor_titulo)
         lb_hra_saida.grid(row=7, column=0, padx=PADX, pady=PADY)
 
@@ -73,29 +73,29 @@ class AlterarVisitas:
                                     foreground=cor_dados,
                                     width=10)
         self.obrigatorios.append([self.et_hra_saida])
-        self.et_hra_saida.grid(row=7, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+        self.et_hra_saida.grid(row=7, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")'''
 
         #Alterar visitante
         lb_visitante = tk.Label(self.popup, text="Codigo do Visitante", font='Helvetica 12 bold', fg=cor_titulo)
         lb_visitante.grid(row=8, column=0, padx=PADX, pady=PADY)
 
         self.valor_visitante = tk.StringVar()
-        self.valor_visitante.set(funcao['cod_campus'])
+        self.valor_visitante.set(funcao['cod_visitantes'])
         self.et_visitante = ttk.Entry(self.popup, textvariable=self.valor_visitante, font='Helvetica 16 bold',
                                     foreground=cor_dados, width=10)
         self.obrigatorios.append([self.et_visitante])
         self.et_visitante.grid(row=8, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
-        #Alterar Campus
-        lb_campus = tk.Label(self.popup, text="Codigo do campus", font='Helvetica 12 bold', fg=cor_titulo)
-        lb_campus.grid(row=9, column=0, padx=PADX, pady=PADY)
+        #Alterar Local
+        lb_locais = tk.Label(self.popup, text="Codigo do local", font='Helvetica 12 bold', fg=cor_titulo)
+        lb_locais.grid(row=9, column=0, padx=PADX, pady=PADY)
 
-        self.valor_campus = tk.StringVar()
-        self.valor_campus.set(funcao['cod_campus'])
-        self.et_campus = ttk.Entry(self.popup, textvariable=self.valor_campus, font='Helvetica 16 bold',
-                                      foreground=cor_dados, width=10)
-        self.obrigatorios.append([self.et_campus])
-        self.et_campus.grid(row=9, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+        self.valor_local = tk.StringVar()
+        self.valor_local.set(funcao['cod_locais'])
+        self.et_locais = ttk.Entry(self.popup, textvariable=self.valor_local, font='Helvetica 16 bold',
+                                   foreground=cor_dados, width=10)
+        self.obrigatorios.append([self.et_locais])
+        self.et_locais.grid(row=9, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         #Botão para salvar alterações
         self.bt_alterar = tk.Button(self.popup, text="Alterar a Função", command=lambda: self.alterar(janela_mestre),
@@ -114,13 +114,11 @@ class AlterarVisitas:
             data1conv = datetime.strptime(data1, '%d/%m/%Y').date()
             hra_ent = self.valor_hra_ent.get()
             hra_entrada = datetime.strptime(hra_ent, '%H:%M').time()
-            hra_sai = self.valor_hra_saida.get()
-            hra_saida = datetime.strptime(hra_sai, '%H:%M').time()
             visitante = self.valor_visitante.get()
-            campus = self.valor_campus.get()
+            local = self.valor_local.get()
 
-            cmd = "UPDATE ta_visitas SET dta_visita = %s, hra_entrada_visita = %s, hra_saida_visita = %s, cod_visitantes = %s, cod_campus = %s WHERE idt_visitas = %s"
-            num_reg = janela_mestre.sql.upd_del(cmd, (data1conv, hra_entrada, hra_saida, visitante, campus, idt))
+            cmd = "UPDATE ta_visitas SET dta_visita = %s, hra_entrada_visita = %s, cod_visitantes = %s, cod_locais = %s WHERE idt_visitas = %s"
+            num_reg = janela_mestre.sql.upd_del(cmd, (data1conv, hra_entrada, visitante, local, idt))
             self.popup.destroy()
         else:
             messagebox.showerror("Erro: Campo(s) obrigatório(s)",
