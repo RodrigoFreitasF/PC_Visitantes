@@ -1,5 +1,5 @@
 #CRUD executável de ta_visitas
-
+import time
 import tkinter as tk
 from tkinter import ttk, PhotoImage
 from tkinter import messagebox
@@ -9,6 +9,7 @@ from c_visitas import IncluirVisitas
 from u_visitas import AlterarVisitas
 from d_visitas import ExcluirVisitas
 
+from datetime import datetime
 
 class CRUDta_visita(tk.Tk):
     def __init__(self):
@@ -31,11 +32,11 @@ class CRUDta_visita(tk.Tk):
         titulo.grid(row=0, column=0, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # Segunda linha - Parâmetro de consulta
-        lb_nome = tk.Label(self, text="Data de visita", font='Helvetica 12 bold', fg=cor_titulo)
+        lb_nome = tk.Label(self, text="Data de visita (aaaa-mm-dd)", font='Helvetica 12 bold', fg=cor_titulo)
         lb_nome.grid(row=1, column=0, padx=self.PADX, pady=self.PADY)
 
         self.data = tk.StringVar()
-        self.et_dta = ttk.Entry(self, textvariable=self.data, font='Helvetica 16 bold', foreground=cor_btn)
+        self.et_dta = ttk.Entry(self, textvariable= self.data, font='Helvetica 16 bold', foreground=cor_btn)
         self.et_dta.grid(row=1, column=1, padx=self.PADX, pady=self.PADY)
 
         self.bt_consultar = tk.Button(self, text="CONSULTAR", command=self.consultar, font=fonte_btn,
@@ -75,7 +76,7 @@ class CRUDta_visita(tk.Tk):
         self.bt_incluir = tk.Button(self, text="INCLUIR", command=self.incluir, font='Helvetica 12 bold', fg='white',
                                     bg=cor_btn,width=15, border=0)
         self.bt_incluir.grid(row=4, column=0, padx=self.PADX, pady=self.PADY)
-        self.bt_alterar = tk.Button(self, text="ALTERAR", command=self.alterar, font='Helvetica 12 bold', fg='white',
+        self.bt_alterar = tk.Button(self, text="ALTERAR / CI", command=self.alterar, font='Helvetica 12 bold', fg='white',
                                     bg=cor_btn,width=15, border=0)
         self.bt_alterar.grid(row=4, column=1, padx=self.PADX, pady=self.PADY)
         self.bt_excluir = tk.Button(self, text="EXCLUIR", command=self.excluir, font='Helvetica 12 bold', fg='white',
@@ -91,7 +92,6 @@ class CRUDta_visita(tk.Tk):
     def consultar(self):
         # Obter o termo de busca
         nome = self.et_dta.get()
-
         # Chamar a função da sua classe utilitária para buscar os registros
 
         cmd = (
@@ -104,7 +104,9 @@ class CRUDta_visita(tk.Tk):
         for funcao in funcoes:
             if funcao['Hora_De_Saida'] is None:
                 funcao['Hora_De_Saida'] = 'C.O. Pendente'
-            if funcao['Hora_De_Entrada'] is None:
+
+            hra_ent = datetime.strptime(funcao['Hora_De_Entrada'], '%H:%M')
+            if hra_ent == datetime.strptime('00:00', '%H:%M') :
                 funcao['Hora_De_Entrada'] = 'C.I. Pendente'
             self.tre_funcoes.insert("", tk.END, values=(funcao['IDT'], funcao['Data_Visitas'], funcao['Hora_De_Entrada'],
                                                         funcao['Hora_De_Saida'], funcao['Visitante'],
