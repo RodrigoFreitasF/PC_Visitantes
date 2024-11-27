@@ -14,6 +14,8 @@ class CadastrarVisitante:
         PADX = 10
         PADY = 10
         self.ROXO = "#662c92"
+
+        # Variáveis
         self.obrigatorios = []
 
         # Primeira linha - Título
@@ -80,7 +82,7 @@ class CadastrarVisitante:
             acompanhante in
             alunos]
 
-        # Sétima linha - Botão para incluir um novo projeto
+        # Sétima linha - Botão para cadastrar um novo visitante
         self.bt_salvar = tk.Button(self.popup, text="Cadastrar", command=lambda: self.salvar(janela_mestre),
                                    font='Helvetica 12 bold', fg='white', bg=self.ROXO)
         self.bt_salvar.grid(row=6, column=0, columnspan=4, padx=PADX, pady=PADY, sticky="ew")
@@ -106,7 +108,7 @@ class CadastrarVisitante:
             cmd = ("INSERT INTO "
                    "tb_visitantes (nme_visitante, rg_visitante, eml_visitante, pcd_visitante, cod_aluno_acompanhante) "
                    "VALUES (%s, %s, %s, %s, %s)")
-            id = janela_mestre.sql.insert(cmd, (nome, rg, email, pcd_valor, idt_acompanhante))
+            janela_mestre.sql.insert(cmd, (nome, rg, email, pcd_valor, idt_acompanhante))
 
             # Fechar a janela pop-up
             self.popup.destroy()

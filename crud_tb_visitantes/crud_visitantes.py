@@ -1,7 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 
 from crud_tb_visitantes.c_visitantes import CadastrarVisitante
+from crud_tb_visitantes.d_visitantes import ExcluirVisitante
+from crud_tb_visitantes.u_visitantes import AlterarVisitante
 from util.db import SQL
 
 
@@ -88,25 +91,27 @@ class CRUDProjeto(tk.Tk):
         nome = self.nome_var.get()
 
         # Chamar a função da sua classe utilitária para buscar os registros
-        cmd = ("SELECT v.idt_visitantes, v.nme_visitante, v.rg_visitante, v.eml_visitante, v.pcd_visitante, a.nme_aluno_acompanhante "
-               "FROM tb_visitantes v "
-               "LEFT JOIN tb_aluno_acompanhante a ON v.cod_aluno_acompanhante = a.idt_aluno_acompanhante "
-               "WHERE nme_visitante LIKE CONCAT('%', %s, '%') ORDER BY nme_visitante")
+        cmd = (
+            "SELECT v.idt_visitantes, v.nme_visitante, v.rg_visitante, v.eml_visitante, v.pcd_visitante, a.nme_aluno_acompanhante "
+            "FROM tb_visitantes v "
+            "LEFT JOIN tb_aluno_acompanhante a ON v.cod_aluno_acompanhante = a.idt_aluno_acompanhante "
+            "WHERE nme_visitante LIKE CONCAT('%', %s, '%') ORDER BY nme_visitante")
         visitantes = self.sql.get_list(cmd, [nome])
 
         self.limpar_tabela()
         for visitante in visitantes:
             nome_acompanhante = visitante['nme_aluno_acompanhante'] if visitante['nme_aluno_acompanhante'] else ""
+            email_visitante = visitante['eml_visitante'] if visitante['eml_visitante'] else ""
+            pcd_visitante = visitante['pcd_visitante'] if visitante['pcd_visitante'] else ""
             self.tre_visitantes.insert("", tk.END, values=(
                 visitante['idt_visitantes'], visitante['nme_visitante'], visitante['rg_visitante'],
-                visitante['eml_visitante'], visitante['pcd_visitante'], nome_acompanhante))
+                email_visitante, pcd_visitante, nome_acompanhante))
 
     def pegar_idt(self):
         selecao = self.tre_visitantes.selection()
         if selecao:
             linha = self.tre_visitantes.selection()[0]
             valores = self.tre_visitantes.item(linha, "values")
-            print(valores[0])
             return valores[0]
         else:
             return 0
@@ -116,15 +121,27 @@ class CRUDProjeto(tk.Tk):
             self.tre_visitantes.delete(visitante)
 
     def cadastrar(self):
-        c = CadastrarVisitante(self)
+        CadastrarVisitante(self)
         self.et_nome.delete(0, tk.END)
         self.limpar_tabela()
 
     def alterar(self):
-        pass
+        idt = self.pegar_idt()
+        if idt != 0:
+            AlterarVisitante(self, idt)
+            self.et_nome.delete(0, tk.END)
+            self.limpar_tabela()
+        else:
+            messagebox.showerror("Erro: Escolha um projeto", "Marque uma linha da tabela para selecionar o projeto")
 
     def excluir(self):
-        pass
+        idt = self.pegar_idt()
+        if idt != 0:
+            ExcluirVisitante(self, idt)
+            self.et_nome.delete(0, tk.END)
+            self.limpar_tabela()
+        else:
+            messagebox.showerror("Erro: Escolha um projeto", "Marque uma linha da tabela para selecionar o projeto")
 
 
 if __name__ == '__main__':
