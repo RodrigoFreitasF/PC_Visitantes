@@ -8,7 +8,7 @@ from crud_tb_visitantes.u_visitantes import AlterarVisitante
 from util.db import SQL
 
 
-class CRUDProjeto(tk.Tk):
+class CRUDVisitantes(tk.Tk):
     def __init__(self):
         super().__init__()
         # Criação de constantes
@@ -132,7 +132,7 @@ class CRUDProjeto(tk.Tk):
             self.et_nome.delete(0, tk.END)
             self.limpar_tabela()
         else:
-            messagebox.showerror("Erro: Escolha um projeto", "Marque uma linha da tabela para selecionar o projeto")
+            messagebox.showerror("Erro: Escolha um visitante", "Marque uma linha da tabela para selecionar o visitante")
 
     def excluir(self):
         idt = self.pegar_idt()
@@ -141,9 +141,9 @@ class CRUDProjeto(tk.Tk):
             self.et_nome.delete(0, tk.END)
             self.limpar_tabela()
         else:
-            messagebox.showerror("Erro: Escolha um projeto", "Marque uma linha da tabela para selecionar o projeto")
+            messagebox.showerror("Erro: Escolha um visitante", "Marque uma linha da tabela para selecionar o visitante")
 
 
 if __name__ == '__main__':
-    app = CRUDProjeto()
+    app = CRUDVisitantes()
     app.mainloop()
