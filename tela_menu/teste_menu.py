@@ -3,6 +3,8 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 
+from crud_tb_visitantes.crud_visitantes import CRUDVisitantes
+
 
 class MainMenu(tk.Tk):
     def __init__(self):
@@ -79,7 +81,7 @@ class MainMenu(tk.Tk):
         messagebox.showinfo("Consultar Visitas", "Redirecionando para a tela de consulta de visitas.")
 
     def consultar_visitantes(self):
-        messagebox.showinfo("Consultar Visitantes", "Redirecionando para a tela de consulta de visitantes.")
+        CRUDVisitantes()
 
     def consultar_usuarios(self):
         messagebox.showinfo("Usuários do Sistema", "Redirecionando para a tela de gerenciamento de usuários.")
