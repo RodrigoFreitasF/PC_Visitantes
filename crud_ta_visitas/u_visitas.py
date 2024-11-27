@@ -28,7 +28,7 @@ class AlterarVisitas:
         funcao = janela_mestre.sql.get_object(cmd, [idt])
 
         #Título
-        titulo = tk.Label(self.popup, text="Alterar Visita", font='Helvetica 16 bold', fg=cor_titulo)
+        titulo = tk.Label(self.popup, text="Alterar Visita / Realizar Check-in", font='Helvetica 16 bold', fg=cor_titulo)
         titulo.grid(row=1, column=0, columnspan=3, padx=PADX, pady=PADY)
 
         #Idt da visita (readonly)
@@ -55,7 +55,7 @@ class AlterarVisitas:
         self.et_data.grid(row=5, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         #Hora de entrada
-        lb_hra_ent = tk.Label(self.popup, text="Hora de entrada", font='Helvetica 12 bold', fg=cor_titulo)
+        lb_hra_ent = tk.Label(self.popup, text="Hora de Checkin", font='Helvetica 12 bold', fg=cor_titulo)
         lb_hra_ent.grid(row=6, column=0, padx=PADX, pady=PADY)
 
         self.valor_hra_ent = tk.StringVar()
@@ -63,17 +63,6 @@ class AlterarVisitas:
                                  width=10)
         self.obrigatorios.append([self.et_hra_ent])
         self.et_hra_ent.grid(row=6, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
-
-        '''#Hora de saída
-        lb_hra_saida = tk.Label(self.popup, text="Hora de saída", font='Helvetica 12 bold', fg=cor_titulo)
-        lb_hra_saida.grid(row=7, column=0, padx=PADX, pady=PADY)
-
-        self.valor_hra_saida = tk.StringVar()
-        self.et_hra_saida = ttk.Entry(self.popup, textvariable=self.valor_hra_saida, font='Helvetica 16 bold',
-                                    foreground=cor_dados,
-                                    width=10)
-        self.obrigatorios.append([self.et_hra_saida])
-        self.et_hra_saida.grid(row=7, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")'''
 
         #Alterar visitante
         lb_visitante = tk.Label(self.popup, text="Codigo do Visitante", font='Helvetica 12 bold', fg=cor_titulo)
@@ -98,7 +87,7 @@ class AlterarVisitas:
         self.et_locais.grid(row=9, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         #Botão para salvar alterações
-        self.bt_alterar = tk.Button(self.popup, text="Alterar a Função", command=lambda: self.alterar(janela_mestre),
+        self.bt_alterar = tk.Button(self.popup, text="Check-in", command=lambda: self.alterar(janela_mestre),
                                     font='Helvetica 12 bold',
                                     fg='white',
                                     bg=cor_btn)
