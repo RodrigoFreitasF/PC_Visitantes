@@ -1,7 +1,7 @@
 #Create de ta_visitas
 
 import tkinter as tk
-from tkinter import ttk, IntVar, Checkbutton
+from tkinter import ttk
 from tkinter import messagebox
 import util.validate as val
 from tkcalendar import DateEntry

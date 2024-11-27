@@ -1,7 +1,5 @@
-#CRUD executável de ta_visitas
-import time
 import tkinter as tk
-from tkinter import ttk, PhotoImage
+from tkinter import ttk
 from tkinter import messagebox
 
 from util.db import SQL
