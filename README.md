@@ -15,23 +15,19 @@
 - [Tecnologias utilizadas](#tecnologias-utilizadas)
 - [Contribuidores](#contribuidores)
 
-<hr>
-
 # Descrição
-
-<!-- realizar uma descrição detalhada do projeto -->
-
-<hr>
 
 # Como utilizar
 
-### Links para download: 
+- [Wiki do projeto](https://github.com/KerubinSM5/PC_Visitantes/wiki/Introdu%C3%A7%C3%A3o)
 
 ### Clone o repositório:
 
 * Em um terminal ou diretamente pelo Pycharm, clone o repositório do projeto:
+```
+git clone https://github.com/KerubinSM5/PC_Visitantes/
+```
 
-* git clone https://github.com/KerubinSM5/PC_Visitantes/
 ### importe o projeto no Pycharm:
 
 ### Execute o projeto:
@@ -47,8 +43,8 @@
 
 # Contribuidores
 
-<a href="https://github.com/KerubinSM5/PC_Visitantes/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=KerubinSM5/PC_Visitantes" />
+<a href="https://github.com/kerubinsm5/kerubinsm5/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=kerubinsm5/kerubinsm5" />
 </a>
 <a href="https://github.com/Roddie118/Roddie118/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Roddie118/Roddie118" />
