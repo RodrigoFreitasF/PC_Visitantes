@@ -60,7 +60,7 @@ class LoginWindow(tk.Tk):
         right_frame = tk.Frame(main_frame, bg="white", width=300, height=400)
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-        # Título do login
+        # Título do login #
         login_title = tk.Label(
             right_frame,
             text="Login",
@@ -70,7 +70,7 @@ class LoginWindow(tk.Tk):
         )
         login_title.pack(pady=70)
 
-        # Campos de entrada com estilo
+        # Campos de entrada com estilo #
         self.usuario_input = ttk.Entry(right_frame, font=self.label_font)
         self.usuario_input.pack(pady=10, padx=40, fill=tk.X)
 
@@ -84,7 +84,7 @@ class LoginWindow(tk.Tk):
         self.senha_input.pack(pady=10, fill=tk.X)
 
 
-        # Botão de login com estilo
+        # Botão de login com estilo #
         login_button = tk.Button(
             right_frame,
             text="ENTRAR",
@@ -95,7 +95,7 @@ class LoginWindow(tk.Tk):
         )
         login_button.pack(pady=10, padx=50, fill=tk.X)
 
-        # Botões adicionais com estilo
+        # Botões adicionais com estilo #
         forgot_password = tk.Button(
             right_frame,
             text="Esqueceu a senha?",
@@ -119,7 +119,7 @@ class LoginWindow(tk.Tk):
         register_button.pack(pady=1)
 
     def verificar_login(self):
-        """Verifica as credenciais do usuário."""
+        # Verificação de credenciais do usuário #
         usuario = self.usuario_input.get()
         senha = self.senha_input.get()
 
@@ -160,11 +160,11 @@ class RegistroDialog(tk.Toplevel):
         self.geometry("400x400")
         self.configure(bg="white")
 
-        # Layout principal
+        # Layout principal #
         layout = tk.Frame(self, bg="white")
         layout.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-        # Título
+        # Título #
         titulo = tk.Label(
             layout,
             text="Registro de novo usuário",
@@ -174,7 +174,7 @@ class RegistroDialog(tk.Toplevel):
         )
         titulo.pack(pady=10)
 
-        # Campos de entrada
+        # Campos de entrada #
         self.nome_input = ttk.Entry(layout, font=("Arial", 10))
         self.nome_input.insert(0, "Nome completo")
         self.nome_input.pack(pady=10, fill=tk.X)
@@ -195,7 +195,7 @@ class RegistroDialog(tk.Toplevel):
         self.confirmar_senha_input.insert(0, "Confirmar senha")
         self.confirmar_senha_input.pack(pady=10, fill=tk.X)
 
-        # Botão de registro
+        # Botão de registro #
         registrar_button = tk.Button(
             layout,
             text="Registrar",
@@ -207,14 +207,14 @@ class RegistroDialog(tk.Toplevel):
         registrar_button.pack(pady=20)
 
     def registrar(self):
-        # Registrar novo usuário no banco de dados
+        # Registrar novo usuário no banco de dados #
         nome = self.nome_input.get()
         email = self.email_input.get()
         usuario = self.usuario_input.get()
         senha = self.senha_input.get()
         confirmar_senha = self.confirmar_senha_input.get()
 
-        # Validações básicas
+        # Validações básicas de senha #
         if not all([nome, email, usuario, senha, confirmar_senha]):
             messagebox.showwarning("Erro", "Todos os campos são obrigatórios!")
             return
@@ -227,10 +227,10 @@ class RegistroDialog(tk.Toplevel):
             messagebox.showwarning("Erro", "A senha deve ter pelo menos 6 caracteres!")
             return
 
-        # Usar criptografia de senha
+        # Usar criptografia de senha \3
         senha_hash = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
 
-        # Conectar ao banco de dados e registrar
+        # Conectar ao banco de dados e registrar \3
         conn = conectar_banco()
         if not conn:
             messagebox.showerror("Erro", "Erro ao conectar ao banco de dados!")
@@ -258,7 +258,7 @@ class RecuperarSenhaDialog(tk.Toplevel):
         self.geometry("400x300")
         self.configure(bg="white")
 
-        # Título
+        # Título #
         tk.Label(
             self,
             text="Recuperação de senha",
@@ -267,7 +267,7 @@ class RecuperarSenhaDialog(tk.Toplevel):
             bg="white"
         ).pack(pady=5)
 
-        # Campo de email
+        # Campo de email #
         self.email_input = ttk.Entry(self, font=("Arial", 10))
         self.email_input.pack(pady=20, padx=20, fill=tk.X)
 
@@ -275,7 +275,7 @@ class RecuperarSenhaDialog(tk.Toplevel):
         self.email_input.insert(0, "E-mail cadastrado")
 
 
-        # Botão de envio
+        # Botão de envio #
         tk.Button(
             self,
             text="ENVIAR",
@@ -286,7 +286,7 @@ class RecuperarSenhaDialog(tk.Toplevel):
         ).pack(pady=5)
 
     def enviar_email_recuperacao(self):
-        # Envio de e-mail de recuperação de senha
+        # Envio de e-mail de recuperação de senha #
         email = self.email_input.get()
         if not email:
             messagebox.showwarning("Erro", "Por favor, digite seu email!")
