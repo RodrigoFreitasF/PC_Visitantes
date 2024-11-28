@@ -1,15 +1,11 @@
-import sys
+import tkinter as tk
+from tkinter import ttk, messagebox, font
 import bcrypt
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel,
-                             QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout,
-                             QFrame, QMessageBox, QDialog)
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap, QFont, QIcon
 import mysql.connector
 from mysql.connector import Error
 
-
 def conectar_banco():
+    # Conectar ao banco de dados (bd_gestao_visitantes) #
     try:
         conn = mysql.connector.connect(
             host="localhost",
@@ -22,151 +18,118 @@ def conectar_banco():
         print(f"Erro ao conectar ao MySQL: {e}")
         return None
 
-
-class LoginWindow(QMainWindow):
+class LoginWindow(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Sistema de Gestão de Visitantes - Uniceub")
-        self.setFixedSize(800, 500)
-        self.setWindowIcon(QIcon('logoCEUB.png'))
 
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
+        self.title("Sistema de Gestão de Visitantes - Uniceub")
+        self.geometry("800x500")
+        self.resizable(False, False)
+        self.configure(bg="#43054e")  # Cor de fundo padrão do Uniceub #
 
-        main_layout = QHBoxLayout()
-        central_widget.setLayout(main_layout)
+        # Fontes personalizadas #
+        self.title_font = font.Font(family="Arial", size=26, weight="bold")
+        self.label_font = font.Font(family="Arial", size=12)
+        self.button_font = font.Font(family="Arial", size=12, weight="bold")
 
-        # Parte esquerda - Logo
-        left_frame = QFrame()
-        left_frame.setStyleSheet("background-color: #43054e;")
-        left_layout = QVBoxLayout()
+        # Configurar o layout #
+        self.create_layout()
 
-        logo_label = QLabel()
-        logo_label.setAlignment(Qt.AlignCenter)
+    def create_layout(self):
+        # Criação do layout principal da tela de login #
 
-        welcome_label = QLabel("Bem-vindo ao\nSistema de Gestão\nde Visitantes")
-        welcome_label.setAlignment(Qt.AlignCenter)
-        welcome_label.setStyleSheet("color: white; font-size: 40px;")
-        welcome_label.setWordWrap(True)
+        # Frame principal para organizar os elementos #
+        main_frame = tk.Frame(self, bg="#43054e")
+        main_frame.pack(expand=True, fill="both")
 
-        left_layout.addWidget(logo_label)
-        left_layout.addWidget(welcome_label)
-        left_frame.setLayout(left_layout)
+        # Parte esquerda da tela- Bem-vindo ao Sistema de Gestão de Visitantes #
+        left_frame = tk.Frame(main_frame, bg="#43054e", width=400, height=500)
+        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
-        # Parte direita - Login
-        right_frame = QFrame()
-        right_frame.setStyleSheet("background-color: white;")
-        right_layout = QVBoxLayout()
+        welcome_label = tk.Label(
+            left_frame,
+            text="Bem-vindo ao\nSistema de Gestão\nde Visitantes",
+            font=("Arial", 23, "bold"),
+            bg="#43054e",
+            fg="white",
+            justify="center"
+        )
+        welcome_label.pack(expand=True, fill=tk.BOTH, pady=30)
 
-        login_title = QLabel("Login")
-        login_title.setAlignment(Qt.AlignCenter)
-        login_title.setStyleSheet("""
-            font-size: 28px;
-            color: #43054e;
-            margin: 20px;
-            font-weight: bold;
-        """)
+        # Parte direita da tela - Login no sistema #
+        right_frame = tk.Frame(main_frame, bg="white", width=300, height=400)
+        right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-        form_container = QFrame()
-        form_layout = QVBoxLayout()
+        # Título do login
+        login_title = tk.Label(
+            right_frame,
+            text="Login",
+            font=self.title_font,
+            bg="white",
+            fg="#43054e"
+        )
+        login_title.pack(pady=70)
 
-        # Campos de entrada
-        self.usuario_input = QLineEdit()
-        self.usuario_input.setPlaceholderText("Digite seu usuário")
-        self.senha_input = QLineEdit()
-        self.senha_input.setPlaceholderText("Digite sua senha")
-        self.senha_input.setEchoMode(QLineEdit.Password)
+        # Campos de entrada com estilo
+        self.usuario_input = ttk.Entry(right_frame, font=self.label_font)
+        self.usuario_input.pack(pady=10, padx=40, fill=tk.X)
 
-        style = """
-            QLineEdit {
-                padding: 12px;
-                border: 2px solid #ddd;
-                border-radius: 5px;
-                font-size: 16px;
-                margin: 5px 0;
-            }
-            QLineEdit:focus {
-                border: 2px solid #43054e;
-            }
-        """
-        self.usuario_input.setStyleSheet(style)
-        self.senha_input.setStyleSheet(style)
+        self.senha_input = ttk.Entry(right_frame, font=self.label_font, show="*")
+        self.senha_input.pack(pady=10, padx=40, fill=tk.X)
 
-        # Botões
-        self.login_button = QPushButton("ENTRAR")
-        self.login_button.setStyleSheet("""
-            QPushButton {
-                background-color: #662c92;
-                color: white;
-                padding: 12px;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                margin-top: 20px;
-            }
-            QPushButton:hover {
-                background-color: #283593;
-            }
-        """)
-        self.login_button.clicked.connect(self.verificar_login)
+        self.usuario_input.pack(pady=10, fill=tk.X)
+        self.usuario_input.insert(0, "Nome de usuário")
 
-        self.forgot_password = QPushButton("Esqueceu a senha?")
-        self.register_button = QPushButton("Registrar novo usuário")
+        self.senha_input.insert(0, "Senha")
+        self.senha_input.pack(pady=10, fill=tk.X)
 
-        button_style = """
-            QPushButton {
-                color: #1a237e;
-                border: none;
-                font-size: 14px;
-                text-decoration: underline;
-            }
-            QPushButton:hover {
-                color: #283593;
-            }
-        """
-        self.forgot_password.setStyleSheet(button_style)
-        self.register_button.setStyleSheet(button_style)
 
-        self.forgot_password.clicked.connect(self.abrir_recuperacao_senha)
-        self.register_button.clicked.connect(self.abrir_registro)
+        # Botão de login com estilo
+        login_button = tk.Button(
+            right_frame,
+            text="ENTRAR",
+            font=self.button_font,
+            bg="#662c92",
+            fg="white",
+            command=self.verificar_login
+        )
+        login_button.pack(pady=10, padx=50, fill=tk.X)
 
-        # Montando o layout
-        form_layout.addWidget(login_title)
-        form_layout.addWidget(self.usuario_input)
-        form_layout.addWidget(self.senha_input)
-        form_layout.addWidget(self.login_button)
-        form_layout.addWidget(self.forgot_password)
-        form_layout.addWidget(self.register_button)
-        form_layout.setAlignment(Qt.AlignCenter)
-        form_container.setLayout(form_layout)
+        # Botões adicionais com estilo
+        forgot_password = tk.Button(
+            right_frame,
+            text="Esqueceu a senha?",
+            font=self.label_font,
+            fg="#1a237e",
+            bg="white",
+            borderwidth=0,
+            command=self.abrir_recuperacao_senha
+        )
+        forgot_password.pack(pady=5)
 
-        right_layout.addStretch()
-        right_layout.addWidget(form_container)
-        right_layout.addStretch()
-
-        right_frame.setLayout(right_layout)
-
-        main_layout.addWidget(left_frame, 1)
-        main_layout.addWidget(right_frame, 1)
-        main_layout.setContentsMargins(0, 0, 0, 0)
-        main_layout.setSpacing(0)
+        register_button = tk.Button(
+            right_frame,
+            text="Registrar novo usuário",
+            font=self.label_font,
+            fg="#1a237e",
+            bg="white",
+            borderwidth=0,
+            command=self.abrir_registro
+        )
+        register_button.pack(pady=1)
 
     def verificar_login(self):
-        usuario = self.usuario_input.text()
-        senha = self.senha_input.text()
+        """Verifica as credenciais do usuário."""
+        usuario = self.usuario_input.get()
+        senha = self.senha_input.get()
 
         if not usuario or not senha:
-            QMessageBox.warning(
-                self,
-                "Campos Vazios",
-                "Por favor, preencha todos os campos!",
-                QMessageBox.Ok
-            )
+            messagebox.showwarning("Campos Vazios", "Por favor, preencha todos os campos!")
             return
 
         conn = conectar_banco()
         if not conn:
-            QMessageBox.critical(self, "Erro", "Erro ao conectar ao banco de dados!")
+            messagebox.showerror("Erro", "Erro ao conectar ao banco de dados!")
             return
 
         cursor = conn.cursor()
@@ -175,244 +138,102 @@ class LoginWindow(QMainWindow):
             resultado = cursor.fetchone()
 
             if resultado and bcrypt.checkpw(senha.encode('utf-8'), resultado[0].encode('utf-8')):
-                QMessageBox.information(
-                    self,
-                    "Sucesso",
-                    "Login realizado com sucesso!",
-                    QMessageBox.Ok
-                )
+                messagebox.showinfo("Sucesso", "Login realizado com sucesso!")
             else:
-                QMessageBox.warning(
-                    self,
-                    "Erro",
-                    "Usuário ou senha incorretos!",
-                    QMessageBox.Ok
-                )
+                messagebox.showwarning("Erro", "Usuário ou senha incorretos!")
         except mysql.connector.Error as e:
-            QMessageBox.warning(self, "Erro", f"Erro ao verificar login: {e}")
+            messagebox.showerror("Erro", f"Erro ao verificar login: {e}")
         finally:
             conn.close()
 
     def abrir_recuperacao_senha(self):
-        dialog = RecuperarSenhaDialog(self)
-        dialog.exec_()
+        RecuperarSenhaDialog(self)
 
     def abrir_registro(self):
-        dialog = RegistroDialog(self)
-        dialog.exec_()
+        RegistroDialog(self)
 
 
-class RecuperarSenhaDialog(QDialog):
-    def __init__(self, parent=None):
+class RegistroDialog(tk.Toplevel):
+    def __init__(self, parent):
         super().__init__(parent)
-        self.setWindowTitle("Recuperar Senha")
-        self.setFixedSize(400, 300)
-        self.setWindowIcon(QIcon('logoCEUB.png'))
+        self.title("Registro de novo usuário")
+        self.geometry("400x400")
+        self.configure(bg="white")
 
-        layout = QVBoxLayout()
+        # Layout principal
+        layout = tk.Frame(self, bg="white")
+        layout.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
         # Título
-        titulo = QLabel("Recuperação de Senha")
-        titulo.setStyleSheet("""
-            font-size: 20px;
-            color: #43054e;
-            margin: 10px;
-            font-weight: bold;
-        """)
-        titulo.setAlignment(Qt.AlignCenter)
-
-        # Campo de email
-        self.email_input = QLineEdit()
-        self.email_input.setPlaceholderText("Digite seu email cadastrado")
-        self.email_input.setStyleSheet("""
-            QLineEdit {
-                padding: 12px;
-                border: 2px solid #ddd;
-                border-radius: 5px;
-                font-size: 12px;
-                margin: 5px 0;
-            }
-            QLineEdit:focus {
-                border: 2px solid #43054e;
-            }
-        """)
-
-        # Botão de enviar
-        self.enviar_button = QPushButton("Enviar Email de Recuperação")
-        self.enviar_button.setStyleSheet("""
-            QPushButton {
-                background-color: #662c92;
-                color: white;
-                padding: 12px;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                margin-top: 20px;
-            }
-            QPushButton:hover {
-                background-color: #283593;
-            }
-        """)
-        self.enviar_button.clicked.connect(self.enviar_email_recuperacao)
-
-        # Adicionar widgets ao layout
-        layout.addWidget(titulo)
-        layout.addWidget(QLabel("Digite seu email cadastrado:"))
-        layout.addWidget(self.email_input)
-        layout.addWidget(self.enviar_button)
-
-        self.setLayout(layout)
-
-    def enviar_email_recuperacao(self):
-        email = self.email_input.text()
-
-        if not email:
-            QMessageBox.warning(self, "Erro", "Por favor, digite seu email!")
-            return
-
-        conn = conectar_banco()
-        if not conn:
-            QMessageBox.critical(self, "Erro", "Erro ao conectar ao banco de dados!")
-            return
-
-        cursor = conn.cursor()
-        try:
-            cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
-            usuario = cursor.fetchone()
-
-            if usuario:
-                # Aqui você implementaria o envio real do email
-                QMessageBox.information(
-                    self,
-                    "Sucesso",
-                    "Um email de recuperação foi enviado para seu endereço.",
-                    QMessageBox.Ok
-                )
-                self.accept()
-            else:
-                QMessageBox.warning(
-                    self,
-                    "Erro",
-                    "Email não encontrado no sistema.",
-                    QMessageBox.Ok
-                )
-        except mysql.connector.Error as e:
-            QMessageBox.warning(self, "Erro", f"Erro ao verificar email: {e}")
-        finally:
-            conn.close()
-
-
-class RegistroDialog(QDialog):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        self.setWindowTitle("Registro de Novo Usuário")
-        self.setFixedSize(500, 500)
-        self.setWindowIcon(QIcon('logoCEUB.png'))
-
-        layout = QVBoxLayout()
-
-        # Título
-        titulo = QLabel("Registro de Novo Usuário")
-        titulo.setStyleSheet("""
-            font-size: 20px;
-            color: #43054e;
-            margin: 10px;
-            font-weight: bold;
-        """)
-        titulo.setAlignment(Qt.AlignCenter)
+        titulo = tk.Label(
+            layout,
+            text="Registro de novo usuário",
+            font=("Arial", 14, "bold"),
+            fg="#43054e",
+            bg="white"
+        )
+        titulo.pack(pady=10)
 
         # Campos de entrada
-        self.nome_input = QLineEdit()
-        self.nome_input.setPlaceholderText("Nome completo")
-        self.email_input = QLineEdit()
-        self.email_input.setPlaceholderText("Email")
-        self.usuario_input = QLineEdit()
-        self.usuario_input.setPlaceholderText("Nome de usuário")
-        self.senha_input = QLineEdit()
-        self.senha_input.setPlaceholderText("Senha")
-        self.senha_input.setEchoMode(QLineEdit.Password)
-        self.confirmar_senha_input = QLineEdit()
-        self.confirmar_senha_input.setPlaceholderText("Confirmar senha")
-        self.confirmar_senha_input.setEchoMode(QLineEdit.Password)
+        self.nome_input = ttk.Entry(layout, font=("Arial", 10))
+        self.nome_input.insert(0, "Nome completo")
+        self.nome_input.pack(pady=10, fill=tk.X)
 
-        # Estilo para os campos
-        style = """
-            QLineEdit {
-                padding: 12px;
-                border: 2px solid #ddd;
-                border-radius: 5px;
-                font-size: 11px;
-                margin: 5px 0;
-            }
-            QLineEdit:focus {
-                border: 2px solid #43054e;
-            }
-        """
-        self.nome_input.setStyleSheet(style)
-        self.email_input.setStyleSheet(style)
-        self.usuario_input.setStyleSheet(style)
-        self.senha_input.setStyleSheet(style)
-        self.confirmar_senha_input.setStyleSheet(style)
+        self.email_input = ttk.Entry(layout, font=("Arial", 10))
+        self.email_input.insert(0, "Email")
+        self.email_input.pack(pady=10, fill=tk.X)
+
+        self.usuario_input = ttk.Entry(layout, font=("Arial", 10))
+        self.usuario_input.insert(0, "Nome de usuário")
+        self.usuario_input.pack(pady=10, fill=tk.X)
+
+        self.senha_input = ttk.Entry(layout, font=("Arial", 10))
+        self.senha_input.insert(0, "Senha")
+        self.senha_input.pack(pady=10, fill=tk.X)
+
+        self.confirmar_senha_input = ttk.Entry(layout, font=("Arial", 10))
+        self.confirmar_senha_input.insert(0, "Confirmar senha")
+        self.confirmar_senha_input.pack(pady=10, fill=tk.X)
 
         # Botão de registro
-        self.registrar_button = QPushButton("Registrar")
-        self.registrar_button.setStyleSheet("""
-            QPushButton {
-                background-color: #662c92;
-                color: white;
-                padding: 12px;
-                border: none;
-                border-radius: 5px;
-                font-size: 14px;
-                margin-top: 20px;
-            }
-            QPushButton:hover {
-                background-color: #283593;
-            }
-            QPushButton:pressed {
-                background-color: #0d47a1;
-            }
-        """)
-        self.registrar_button.clicked.connect(self.registrar)
-
-        # Adicionar widgets ao layout
-        layout.addWidget(titulo)
-        layout.addWidget(self.nome_input)
-        layout.addWidget(self.email_input)
-        layout.addWidget(self.usuario_input)
-        layout.addWidget(self.senha_input)
-        layout.addWidget(self.confirmar_senha_input)
-        layout.addWidget(self.registrar_button)
-
-        self.setLayout(layout)
+        registrar_button = tk.Button(
+            layout,
+            text="Registrar",
+            font=("Arial", 14, "bold"),
+            bg="#662c92",
+            fg="white",
+            command=self.registrar
+        )
+        registrar_button.pack(pady=20)
 
     def registrar(self):
-        nome = self.nome_input.text()
-        email = self.email_input.text()
-        usuario = self.usuario_input.text()
-        senha = self.senha_input.text()
-        confirmar_senha = self.confirmar_senha_input.text()
+        # Registrar novo usuário no banco de dados
+        nome = self.nome_input.get()
+        email = self.email_input.get()
+        usuario = self.usuario_input.get()
+        senha = self.senha_input.get()
+        confirmar_senha = self.confirmar_senha_input.get()
 
-        # Validações
+        # Validações básicas
         if not all([nome, email, usuario, senha, confirmar_senha]):
-            QMessageBox.warning(self, "Erro", "Todos os campos são obrigatórios!")
+            messagebox.showwarning("Erro", "Todos os campos são obrigatórios!")
             return
 
         if senha != confirmar_senha:
-            QMessageBox.warning(self, "Erro", "As senhas não coincidem!")
+            messagebox.showwarning("Erro", "As senhas não coincidem!")
             return
 
         if len(senha) < 6:
-            QMessageBox.warning(self, "Erro", "A senha deve ter pelo menos 6 caracteres!")
+            messagebox.showwarning("Erro", "A senha deve ter pelo menos 6 caracteres!")
             return
 
-        # Criptografar senha
+        # Usar criptografia de senha
         senha_hash = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
 
-        # Conectar ao banco e registrar
+        # Conectar ao banco de dados e registrar
         conn = conectar_banco()
         if not conn:
-            QMessageBox.critical(self, "Erro", "Erro ao conectar ao banco de dados!")
+            messagebox.showerror("Erro", "Erro ao conectar ao banco de dados!")
             return
 
         cursor = conn.cursor()
@@ -422,18 +243,76 @@ class RegistroDialog(QDialog):
                 VALUES (%s, %s, %s, %s)
             """, (nome, email, usuario, senha_hash.decode('utf-8')))
             conn.commit()
-            QMessageBox.information(self, "Sucesso", "Usuário registrado com sucesso!")
-            self.accept()
+            messagebox.showinfo("Sucesso", "Usuário registrado com sucesso!")
+            self.destroy()
         except mysql.connector.Error as e:
-            QMessageBox.warning(self, "Erro", f"Erro ao registrar usuário: {e}")
+            messagebox.showerror("Erro", f"Erro ao registrar usuário: {e}")
         finally:
             conn.close()
 
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    font = QFont("Segoe UI", 10)
-    app.setFont(font)
-    login_window = LoginWindow()
-    login_window.show()
-    sys.exit(app.exec_())
+class RecuperarSenhaDialog(tk.Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.title("Recuperar Senha")
+        self.geometry("400x300")
+        self.configure(bg="white")
+
+        # Título
+        tk.Label(
+            self,
+            text="Recuperação de senha",
+            font=("Arial", 12, "bold"),
+            fg="#43054e",
+            bg="white"
+        ).pack(pady=5)
+
+        # Campo de email
+        self.email_input = ttk.Entry(self, font=("Arial", 10))
+        self.email_input.pack(pady=20, padx=20, fill=tk.X)
+
+        self.email_input.pack(pady=10, fill=tk.X)
+        self.email_input.insert(0, "E-mail cadastrado")
+
+
+        # Botão de envio
+        tk.Button(
+            self,
+            text="ENVIAR",
+            font=("Arial", 10, "bold"),
+            bg="#662c92",
+            fg="white",
+            command=self.enviar_email_recuperacao
+        ).pack(pady=5)
+
+    def enviar_email_recuperacao(self):
+        # Envio de e-mail de recuperação de senha
+        email = self.email_input.get()
+        if not email:
+            messagebox.showwarning("Erro", "Por favor, digite seu email!")
+            return
+
+        conn = conectar_banco()
+        if not conn:
+            messagebox.showerror("Erro", "Erro ao conectar ao banco de dados!")
+            return
+
+        cursor = conn.cursor()
+        try:
+            cursor.execute("SELECT * FROM usuarios WHERE email = %s", (email,))
+            usuario = cursor.fetchone()
+
+            if usuario:
+                messagebox.showinfo("Sucesso", "Um email de recuperação foi enviado.")
+                self.destroy()
+            else:
+                messagebox.showwarning("Erro", "Email não encontrado no sistema.")
+        except mysql.connector.Error as e:
+            messagebox.showerror("Erro", f"Erro ao verificar email: {e}")
+        finally:
+            conn.close()
+
+
+if __name__ == "__main__":
+    app = LoginWindow()
+    app.mainloop()
