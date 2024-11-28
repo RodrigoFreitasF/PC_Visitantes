@@ -112,10 +112,10 @@ class MainMenu:
             fg='white',
             relief=tk.FLAT,
             font=self.button_font,
-            padx=10,
+            padx=5,
             pady=5
         )
-        button.pack(pady=10)
+        button.pack(pady=5)
 
     def consultar_visitas(self):
         # Espaço reservado para consulta de visitas #
