@@ -5,7 +5,7 @@ import mysql.connector
 from mysql.connector import Error
 
 def conectar_banco():
-    # Conectar ao banco de dados (bd_gestao_visitantes) #
+    ## Conectar ao banco de dados (bd_gestao_visitantes) ##
     try:
         conn = mysql.connector.connect(
             host="localhost",
