@@ -227,10 +227,10 @@ class RegistroDialog(tk.Toplevel):
             messagebox.showwarning("Erro", "A senha deve ter pelo menos 6 caracteres!")
             return
 
-        # Usar criptografia de senha \3
+        # Usar criptografia de senha #
         senha_hash = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
 
-        # Conectar ao banco de dados e registrar \3
+        # Conectar ao banco de dados e registrar #
         conn = conectar_banco()
         if not conn:
             messagebox.showerror("Erro", "Erro ao conectar ao banco de dados!")
