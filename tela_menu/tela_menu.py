@@ -1,110 +1,138 @@
-import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-                             QLabel, QPushButton, QFrame, QMessageBox)  # Adicionado QMessageBox
-from PyQt5.QtGui import QFont, QIcon
-from PyQt5.QtCore import Qt
+import tkinter as tk
+from tkinter import messagebox, font
 
+class MainMenu:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Sistema de Gestão de Visitantes - Menu")
+        self.root.geometry("800x500")
+        self.root.resizable(False, False)
 
-class MainMenu(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Sistema de Gestão de Visitantes - Menu")
-        self.setFixedSize(800, 500)
-        self.setWindowIcon(QIcon("logoCEUB.png"))
+        # Configurar estilos #
+        self.configurar_estilos()
 
-        # Configurar widget central
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
+        # Criar frame principal #
+        main_frame = tk.Frame(root, bg='white')
+        main_frame.pack(fill=tk.BOTH, expand=True)
 
-        # Layout principal
-        main_layout = QVBoxLayout()
-        central_widget.setLayout(main_layout)
+        # Criar cabeçalho #
+        header_frame = tk.Frame(main_frame, bg='#43054e')
+        header_frame.pack(fill=tk.X)
 
-        # Header
-        header_frame = QFrame()
-        header_frame.setStyleSheet("background-color: #43054e; color: white;")
-        header_layout = QVBoxLayout()
-        header_label = QLabel("Sistema de Gestão de Visitantes")
-        header_label.setAlignment(Qt.AlignCenter)
-        header_label.setFont(QFont("Arial", 22, QFont.Bold))
-        header_layout.addWidget(header_label)
-        header_frame.setLayout(header_layout)
+        header_label = tk.Label(
+            header_frame,
+            text="Sistema de Gestão de Visitantes",
+            font=self.title_font,
+            bg='#43054e',
+            fg='white'
+        )
+        header_label.pack(pady=20)
 
-        # Menu grid
-        menu_grid = QVBoxLayout() if self.width() < 768 else QHBoxLayout()
+        # Criar frame de itens de menu #
+        menu_frame = tk.Frame(main_frame, bg='white')
+        menu_frame.pack(expand=True)
 
-        # Adicionar itens ao menu
+        # Configuração de itens de menu #
         menu_items = [
-            {"icon": "📋", "title": "Consultar Visitas",
-             "action": self.consultar_visitas},
-            {"icon": "👥", "title": "Consultar Visitantes",
-             "action": self.consultar_visitantes},
-            {"icon": "🛡️", "title": "Usuários do Sistema",
-             "action": self.consultar_usuarios},
+            {
+                "emoji": "📋",
+                "title": "Consultar Visitas",
+                "action": self.consultar_visitas
+            },
+            {
+                "emoji": "👥",
+                "title": "Consultar Visitantes",
+                "action": self.consultar_visitantes
+            },
+            {
+                "emoji": "🛡️",
+                "title": "Usuários do Sistema",
+                "action": self.consultar_usuarios
+            }
         ]
 
+        # Criar itens de menu com mais espaçamento #
+        inner_frame = tk.Frame(menu_frame, bg='white')
+        inner_frame.pack(expand=True)
+
         for item in menu_items:
-            menu_item_frame = self.create_menu_item(item["icon"], item["title"], item["action"])
-            menu_grid.addWidget(menu_item_frame)
+            self.criar_item_menu(inner_frame, item)
 
-        # Adicionar elementos ao layout principal
-        main_layout.addWidget(header_frame)
-        for i in range(menu_grid.count()):
-            main_layout.addLayout(menu_grid)
+    def configurar_estilos(self):
+       # Configurar fontes e estilos personalizados #
+        self.title_font = font.Font(family="Arial", size=22, weight="bold")
+        self.item_emoji_font = font.Font(family="Arial", size=38)
+        self.item_title_font = font.Font(family="Arial", size=14, weight="bold")
+        self.button_font = font.Font(family="Arial", size=12, weight="bold")
 
-    def create_menu_item(self, icon, title, action):
-        """Cria um item de menu estilizado."""
-        frame = QFrame()
-        frame.setStyleSheet("""
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        """)
-        layout = QVBoxLayout()
+    def criar_item_menu(self, parent, item):
+        # Criar um item de menu estilizado #
+        # Frame do item com espaçamento aumentado
+        item_frame = tk.Frame(
+            parent,
+            bg='white',
+            highlightbackground='#CCCCCC',
+            highlightcolor='#CCCCCC',
+            highlightthickness=0,
+            bd=0
+        )
+        item_frame.pack(side=tk.LEFT, padx=20, pady=20)  # Aumentar espaçamento horizontal e vertical
 
-        # Ícone
-        icon_label = QLabel(icon)
-        icon_label.setFont(QFont("Arial", 38))
-        icon_label.setAlignment(Qt.AlignCenter)
+        # Criar um container para o emoji com centralização explícita #
+        emoji_container = tk.Frame(item_frame, bg='white', height=40)
+        emoji_container.pack(fill=tk.X)
 
-        # Título
-        title_label = QLabel(title)
-        title_label.setFont(QFont("Arial", 10, QFont.Bold))
-        title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet("color: #1a237e;")
 
-        # Botão
-        button = QPushButton("Acessar")
-        button.setStyleSheet("""
-            background-color: #662c92;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-        """)
-        button.clicked.connect(action)
+        # Emoji centralizado #
+        emoji_label = tk.Label(
+            emoji_container,
+            text=item["emoji"],
+            font=self.item_emoji_font,
+            bg='white',
+            anchor='center'
+        )
+        emoji_label.pack(expand=True)
 
-        # Adicionar elementos ao layout
-        layout.addWidget(icon_label)
-        layout.addWidget(title_label)
-        layout.addWidget(button)
+        # Título com tamanho de fonte aumentado #
+        title_label = tk.Label(
+            item_frame,
+            text=item["title"],
+            font=self.item_title_font,
+            fg='#1a237e',
+            bg='white'
+        )
+        title_label.pack(pady=10)  # Adicionar padding vertical #
 
-        frame.setLayout(layout)
-        return frame
+        # Botão com tamanho de texto aumentado #
+        button = tk.Button(
+            item_frame,
+            text="Acessar",
+            command=item["action"],
+            bg='#662c92',
+            fg='white',
+            relief=tk.FLAT,
+            font=self.button_font,
+            padx=10,
+            pady=5
+        )
+        button.pack(pady=10)
 
     def consultar_visitas(self):
-        QMessageBox.information(self, "Consultar Visitas", "Redirecionando para a tela de consulta de visitas.")
+        # Espaço reservado para consulta de visitas #
+        messagebox.showinfo("Consultar Visitas", "Redirecionando para a tela de consulta de visitas.")
 
     def consultar_visitantes(self):
-        QMessageBox.information(self, "Consultar Visitantes", "Redirecionando para a tela de consulta de visitantes.")
+        # Método de espaço reservado para consulta de visitantes #
+        messagebox.showinfo("Consultar Visitantes", "Redirecionando para a tela de consulta de visitantes.")
 
     def consultar_usuarios(self):
-        QMessageBox.information(self, "Usuários do Sistema", "Redirecionando para a tela de gerenciamento de usuários.")
+        # Método de espaço reservado para gerenciamento de usuários #
+        messagebox.showinfo("Usuários do Sistema", "Redirecionando para a tela de gerenciamento de usuários.")
 
+def main():
+    root = tk.Tk()
+    app = MainMenu(root)
+    root.mainloop()
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainMenu()
-    window.show()
-    sys.exit(app.exec_())
+    main()
