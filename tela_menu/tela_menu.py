@@ -66,8 +66,8 @@ class MainMenu:
         self.button_font = font.Font(family="Arial", size=12, weight="bold")
 
     def criar_item_menu(self, parent, item):
-        # Criar um item de menu estilizado #
-        # Frame do item com espaçamento aumentado
+        ## Criar item de menu estilizado ##
+        # Frame do item com espaçamento aumentado #
         item_frame = tk.Frame(
             parent,
             bg='white',
@@ -78,10 +78,9 @@ class MainMenu:
         )
         item_frame.pack(side=tk.LEFT, padx=20, pady=20)  # Aumentar espaçamento horizontal e vertical
 
-        # Criar um container para o emoji com centralização explícita #
+        ## Criar um container para o emoji centralizado ##
         emoji_container = tk.Frame(item_frame, bg='white', height=40)
         emoji_container.pack(fill=tk.X)
-
 
         # Emoji centralizado #
         emoji_label = tk.Label(
@@ -122,11 +121,11 @@ class MainMenu:
         messagebox.showinfo("Consultar Visitas", "Redirecionando para a tela de consulta de visitas.")
 
     def consultar_visitantes(self):
-        # Método de espaço reservado para consulta de visitantes #
+        # Espaço reservado para consulta de visitantes #
         messagebox.showinfo("Consultar Visitantes", "Redirecionando para a tela de consulta de visitantes.")
 
     def consultar_usuarios(self):
-        # Método de espaço reservado para gerenciamento de usuários #
+        # Espaço reservado para gerenciamento de usuários #
         messagebox.showinfo("Usuários do Sistema", "Redirecionando para a tela de gerenciamento de usuários.")
 
 def main():
