@@ -1,7 +1,6 @@
 from bpmn_python.bpmn_diagram_rep.bpmn_diagram import BpmnDiagram
 from bpmn_python.bpmn_diagram_rep.bpmn_process import BpmnProcess
 from bpmn_python.bpmn_diagram_rep.bpmn_lane import BpmnLane
-from bpmn_python.bpmn_diagram_rep.bpmn_flow_object import BpmnFlowObject
 from bpmn_python.bpmn_diagram_rep.bpmn_sequence_flow import BpmnSequenceFlow
 from bpmn_python.bpmn_diagram_rep.bpmn_event import BpmnEvent
 from bpmn_python.bpmn_diagram_rep.bpmn_activity import BpmnActivity

@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 class SQL:
     def __init__(self, servidor='localhost', usr='root', pwd='senha', esquema='bd_planejamento'):
         self.cnx = mysql.connector.connect(host=servidor,
@@ -80,7 +81,8 @@ class SQL:
             dic = None
         else:
             md = cs.description
-            dic = {col[0]: valor for col, valor in zip(md, dados)} #zip: combina os dados (nome dos campos com dos dados) -
+            dic = {col[0]: valor for col, valor in
+                   zip(md, dados)}  # zip: combina os dados (nome dos campos com dos dados) -
         cs.close()
         return dic
 

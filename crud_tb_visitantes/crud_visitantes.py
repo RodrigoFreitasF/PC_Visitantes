@@ -70,21 +70,31 @@ class CRUDVisitantes(tk.Tk):
         frame_botoes.columnconfigure(0, weight=1)
         frame_botoes.columnconfigure(1, weight=1)
         frame_botoes.columnconfigure(2, weight=1)
+        frame_botoes.columnconfigure(3, weight=1)
+
+        self.bt_voltar = tk.Button(frame_botoes, text="Voltar", command=self.voltar, font='Helvetica 12 bold',
+                                   fg='white', bg=self.ROXO)
+        self.bt_voltar.grid(row=0, column=0, pady=self.PADY, sticky="ew")
 
         self.bt_cadastrar = tk.Button(frame_botoes, text="Cadastrar", command=self.cadastrar, font='Helvetica 12 bold',
                                       fg='white', bg=self.ROXO)
-        self.bt_cadastrar.grid(row=0, column=0, pady=self.PADY, sticky="ew")
+        self.bt_cadastrar.grid(row=0, column=1, padx=(self.PADX, 0), pady=self.PADY, sticky="ew")
 
         self.bt_alterar = tk.Button(frame_botoes, text="Alterar", command=self.alterar, font='Helvetica 12 bold',
                                     fg='white', bg=self.ROXO)
-        self.bt_alterar.grid(row=0, column=1, padx=self.PADX, pady=self.PADY, sticky="ew")
+        self.bt_alterar.grid(row=0, column=2, padx=self.PADX, pady=self.PADY, sticky="ew")
 
         self.bt_excluir = tk.Button(frame_botoes, text="Excluir", command=self.excluir, font='Helvetica 12 bold',
                                     fg='white', bg=self.ROXO)
-        self.bt_excluir.grid(row=0, column=2, pady=self.PADY, sticky="ew")
+        self.bt_excluir.grid(row=0, column=3, pady=self.PADY, sticky="ew")
 
         # Criando o objeto que irá acessar o banco de dados
         self.sql = SQL(esquema='bd_gestao_visitantes')
+
+    def voltar(self):
+        from menu_principal.tela_menu import MainMenu
+        self.destroy()
+        MainMenu()
 
     def consultar(self):
         # Obter o termo de busca

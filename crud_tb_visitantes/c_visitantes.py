@@ -11,8 +11,8 @@ class CadastrarVisitante:
         self.popup.grab_set()
 
         # Constantes
-        PADX = 10
-        PADY = 10
+        self.PADX = 10
+        self.PADY = 10
         self.ROXO = "#662c92"
 
         # Variáveis
@@ -20,58 +20,58 @@ class CadastrarVisitante:
 
         # Primeira linha - Título
         titulo = tk.Label(self.popup, text="Cadastrar Visitante", font='Helvetica 16 bold', fg=self.ROXO)
-        titulo.grid(row=0, column=0, columnspan=4, padx=PADX, pady=PADY)
+        titulo.grid(row=0, column=0, columnspan=4, padx=self.PADX, pady=self.PADY)
 
         # Segunda linha - Receber o nome do visitante
         lb_nome = tk.Label(self.popup, text="Nome", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_nome.grid(row=1, column=0, padx=PADX, pady=PADY)
+        lb_nome.grid(row=1, column=0, padx=self.PADX, pady=self.PADY)
 
         self.nome_var = tk.StringVar()
         self.et_nome = ttk.Entry(self.popup, textvariable=self.nome_var, font='Helvetica 16 bold',
                                  foreground=self.ROXO, width=30)
         val.limitar_tamanho(self.et_nome, 45)
         self.obrigatorios.append([self.et_nome, lb_nome.cget('text')])
-        self.et_nome.grid(row=1, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.et_nome.grid(row=1, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # Terceira linha - Receber o RG do visitante
         lb_rg = tk.Label(self.popup, text="RG", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_rg.grid(row=2, column=0, padx=PADX, pady=PADY)
+        lb_rg.grid(row=2, column=0, padx=self.PADX, pady=self.PADY)
 
         self.rg_var = tk.StringVar()
         self.et_rg = ttk.Entry(self.popup, textvariable=self.rg_var, font='Helvetica 16 bold',
                                foreground=self.ROXO, width=30)
         val.limitar_tamanho(self.et_rg, 10)
         self.obrigatorios.append([self.et_rg, lb_rg.cget('text')])
-        self.et_rg.grid(row=2, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.et_rg.grid(row=2, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # Quarta linha - Receber o Email do visitante
         lb_email = tk.Label(self.popup, text="Email", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_email.grid(row=3, column=0, padx=PADX, pady=PADY)
+        lb_email.grid(row=3, column=0, padx=self.PADX, pady=self.PADY)
 
         self.email_var = tk.StringVar()
         self.et_email = ttk.Entry(self.popup, textvariable=self.email_var, font='Helvetica 16 bold',
                                   foreground=self.ROXO, width=30)
         val.limitar_tamanho(self.et_email, 45)
-        self.et_email.grid(row=3, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.et_email.grid(row=3, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # Quinta linha - Seleção PCD
         lb_pcd = tk.Label(self.popup, text="PCD", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_pcd.grid(row=4, column=0, padx=PADX, pady=PADY)
+        lb_pcd.grid(row=4, column=0, padx=self.PADX, pady=self.PADY)
 
         self.pcd_var = tk.StringVar()
         self.cb_pcd = ttk.Combobox(self.popup, textvariable=self.pcd_var, font='Helvetica 16 bold',
                                    foreground=self.ROXO, width=28, state="readonly")
         self.cb_pcd['values'] = ["Sim", "Não"]
-        self.cb_pcd.grid(row=4, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.cb_pcd.grid(row=4, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # Sexta linha - Seleção do aluno acompanhante
         lb_acompanhante = tk.Label(self.popup, text="Acompanhante", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_acompanhante.grid(row=5, column=0, padx=PADX, pady=PADY)
+        lb_acompanhante.grid(row=5, column=0, padx=self.PADX, pady=self.PADY)
 
         self.acompanhante_var = tk.StringVar()
         self.cb_acompanhante = ttk.Combobox(self.popup, textvariable=self.acompanhante_var, font='Helvetica 16 bold',
                                             width=28, state="readonly")
-        self.cb_acompanhante.grid(row=5, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.cb_acompanhante.grid(row=5, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # Consultar o banco de dados para obter os acompanhantes
         cmd = "SELECT idt_aluno_acompanhante, nme_aluno_acompanhante FROM tb_aluno_acompanhante ORDER BY nme_aluno_acompanhante"
@@ -85,7 +85,7 @@ class CadastrarVisitante:
         # Sétima linha - Botão para cadastrar um novo visitante
         self.bt_salvar = tk.Button(self.popup, text="Cadastrar", command=lambda: self.salvar(janela_mestre),
                                    font='Helvetica 12 bold', fg='white', bg=self.ROXO)
-        self.bt_salvar.grid(row=6, column=0, columnspan=4, padx=PADX, pady=PADY, sticky="ew")
+        self.bt_salvar.grid(row=6, column=0, columnspan=4, padx=self.PADX, pady=self.PADY, sticky="ew")
         self.et_nome.focus()
 
 

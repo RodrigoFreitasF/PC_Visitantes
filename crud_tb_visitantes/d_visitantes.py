@@ -116,7 +116,6 @@ class ExcluirVisitante:
         resposta = messagebox.askyesno("Confirmar Exclusão", "Tem certeza que deseja excluir este visitante?")
         if resposta:
             idt = int(self.idt_var.get())
-            print(idt)
             # Excluir os dados no banco de dados
             cmd = "DELETE FROM ta_visitas WHERE cod_visitantes = %s"
             janela_mestre.sql.upd_del(cmd, [idt])
