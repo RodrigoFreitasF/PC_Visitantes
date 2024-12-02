@@ -159,7 +159,7 @@ class CRUDta_visita(tk.Tk):
             self.limpar_tabela()
         else:
             messagebox.showerror("Erro",
-                                 "Selecione um registro para realizar o checkout.")  # Caso não tenha selecionado nada
+                                 "Selecione um registro para realizar o checkout.")
 
 
 if __name__ == '__main__':
