@@ -6,8 +6,10 @@ from util.db import SQL
 from c_visitas import IncluirVisitas
 from u_visitas import AlterarVisitas
 from d_visitas import ExcluirVisitas
+from checkout_visitas import CheckoutVisitas
 
 from datetime import datetime
+
 
 class CRUDta_visita(tk.Tk):
     def __init__(self):
@@ -16,7 +18,7 @@ class CRUDta_visita(tk.Tk):
         self.PADX = 10
         self.PADY = 10
 
-        #Contantes de cores
+        # Contantes de cores
         cor_btn = '#43054e'
         fonte_btn = 'Jakob 12 bold'
         cor_dados = '#662c92'
@@ -34,7 +36,7 @@ class CRUDta_visita(tk.Tk):
         lb_nome.grid(row=1, column=0, padx=self.PADX, pady=self.PADY)
 
         self.data = tk.StringVar()
-        self.et_dta = ttk.Entry(self, textvariable= self.data, font='Helvetica 16 bold', foreground=cor_btn)
+        self.et_dta = ttk.Entry(self, textvariable=self.data, font='Helvetica 16 bold', foreground=cor_btn)
         self.et_dta.grid(row=1, column=1, padx=self.PADX, pady=self.PADY)
 
         self.bt_consultar = tk.Button(self, text="CONSULTAR", command=self.consultar, font=fonte_btn,
@@ -46,8 +48,10 @@ class CRUDta_visita(tk.Tk):
         style.theme_use('vista')
 
         style.configure("Custom.Treeview", font=("Jakob", 12), foreground=cor_dados)
-        self.tre_funcoes = ttk.Treeview(self, columns=("idt_visitas", "dta_visita", "hra_entrada_visita", "hra_saida_visita",
-                                                       "cod_visitantes", "cod_locais", "cod_aluno_acompanhante"), show="headings", style="Custom.Treeview",height=20)
+        self.tre_funcoes = ttk.Treeview(self,
+                                        columns=("idt_visitas", "dta_visita", "hra_entrada_visita", "hra_saida_visita",
+                                                 "cod_visitantes", "cod_locais", "cod_aluno_acompanhante"),
+                                        show="headings", style="Custom.Treeview", height=20)
 
         # Configurar as colunas
         self.tre_funcoes.heading("idt_visitas", text="IDT da visita")
@@ -68,20 +72,21 @@ class CRUDta_visita(tk.Tk):
         self.tre_funcoes.column("cod_aluno_acompanhante", width=250, anchor=tk.CENTER)
         self.tre_funcoes.grid(row=3, column=0, columnspan=15, padx=self.PADX, pady=self.PADY)
 
-        #super().geometry("1000x650") #Tamanho geral da interface
+        # super().geometry("1000x650") #Tamanho geral da interface
 
         # Quarta linha com os botões de operações
         self.bt_incluir = tk.Button(self, text="INCLUIR", command=self.incluir, font='Helvetica 12 bold', fg='white',
-                                    bg=cor_btn,width=15, border=0)
+                                    bg=cor_btn, width=15, border=0)
         self.bt_incluir.grid(row=4, column=0, padx=self.PADX, pady=self.PADY)
-        self.bt_alterar = tk.Button(self, text="ALTERAR / CI", command=self.alterar, font='Helvetica 12 bold', fg='white',
-                                    bg=cor_btn,width=15, border=0)
+        self.bt_alterar = tk.Button(self, text="ALTERAR / CI", command=self.alterar, font='Helvetica 12 bold',
+                                    fg='white',
+                                    bg=cor_btn, width=15, border=0)
         self.bt_alterar.grid(row=4, column=1, padx=self.PADX, pady=self.PADY)
         self.bt_excluir = tk.Button(self, text="EXCLUIR", command=self.excluir, font='Helvetica 12 bold', fg='white',
-                                    bg=cor_btn,width=15, border=0)
+                                    bg=cor_btn, width=15, border=0)
         self.bt_excluir.grid(row=4, column=2, padx=self.PADX, pady=self.PADY)
         self.bt_checkout = tk.Button(self, text="CHECKOUT", command=self.checkout, font='Helvetica 12 bold', fg='white',
-                                    bg=cor_btn,width=15, border=0)
+                                     bg=cor_btn, width=15, border=0)
         self.bt_checkout.grid(row=4, column=3, padx=self.PADX, pady=self.PADY)
 
         # Criando o objeto que irá acessar o banco de dados
@@ -104,11 +109,12 @@ class CRUDta_visita(tk.Tk):
                 funcao['Hora_De_Saida'] = 'C.O. Pendente'
 
             hra_ent = datetime.strptime(funcao['Hora_De_Entrada'], '%H:%M')
-            if hra_ent == datetime.strptime('00:00', '%H:%M') :
+            if hra_ent == datetime.strptime('00:00', '%H:%M'):
                 funcao['Hora_De_Entrada'] = 'C.I. Pendente'
-            self.tre_funcoes.insert("", tk.END, values=(funcao['IDT'], funcao['Data_Visitas'], funcao['Hora_De_Entrada'],
-                                                        funcao['Hora_De_Saida'], funcao['Visitante'],
-                                                        funcao['Local'], funcao['Aluno']))
+            self.tre_funcoes.insert("", tk.END,
+                                    values=(funcao['IDT'], funcao['Data_Visitas'], funcao['Hora_De_Entrada'],
+                                            funcao['Hora_De_Saida'], funcao['Visitante'],
+                                            funcao['Local'], funcao['Aluno']))
 
     def pegar_idt(self):
         selecao = self.tre_funcoes.selection()
@@ -147,7 +153,14 @@ class CRUDta_visita(tk.Tk):
             messagebox.showerror("Erro: Escolha uma função", "Marque uma linha da tabela para selecionar a função")
 
     def checkout(self):
-        pass
+        idt = self.pegar_idt()  # Pega o IDT da visita selecionada
+        if idt:  # Se um IDT foi selecionado
+            CheckoutVisitas(self, idt)  # Chama a classe CheckoutVisitas com o idt
+            self.limpar_tabela()
+        else:
+            messagebox.showerror("Erro",
+                                 "Selecione um registro para realizar o checkout.")  # Caso não tenha selecionado nada
+
 
 if __name__ == '__main__':
     app = CRUDta_visita()
