@@ -153,9 +153,9 @@ class CRUDta_visita(tk.Tk):
             messagebox.showerror("Erro: Escolha uma função", "Marque uma linha da tabela para selecionar a função")
 
     def checkout(self):
-        idt = self.pegar_idt()  # Pega o IDT da visita selecionada
-        if idt:  # Se um IDT foi selecionado
-            CheckoutVisitas(self, idt)  # Chama a classe CheckoutVisitas com o idt
+        idt = self.pegar_idt()
+        if idt:
+            CheckoutVisitas(self, idt)
             self.limpar_tabela()
         else:
             messagebox.showerror("Erro",
