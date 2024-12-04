@@ -77,17 +77,22 @@ class CRUDta_visita(tk.Tk):
         # Quarta linha com os botões de operações
         self.bt_incluir = tk.Button(self, text="INCLUIR", command=self.incluir, font='Helvetica 12 bold', fg='white',
                                     bg=cor_btn, width=15, border=0)
+        self.grid_columnconfigure(0, weight=0)  # Coluna do botão Incluir
         self.bt_incluir.grid(row=4, column=0, padx=self.PADX, pady=self.PADY)
         self.bt_alterar = tk.Button(self, text="ALTERAR / CI", command=self.alterar, font='Helvetica 12 bold',
                                     fg='white',
                                     bg=cor_btn, width=15, border=0)
+        self.grid_columnconfigure(1, weight=0)  # Coluna do botão Alterar
         self.bt_alterar.grid(row=4, column=1, padx=self.PADX, pady=self.PADY)
         self.bt_excluir = tk.Button(self, text="EXCLUIR", command=self.excluir, font='Helvetica 12 bold', fg='white',
                                     bg=cor_btn, width=15, border=0)
+        self.grid_columnconfigure(2, weight=0)  # Coluna do botão Excluir
         self.bt_excluir.grid(row=4, column=2, padx=self.PADX, pady=self.PADY)
         self.bt_checkout = tk.Button(self, text="CHECKOUT", command=self.checkout, font='Helvetica 12 bold', fg='white',
                                      bg=cor_btn, width=15, border=0)
+        self.grid_columnconfigure(3, weight=1)  # Coluna do botão Checkout
         self.bt_checkout.grid(row=4, column=3, padx=self.PADX, pady=self.PADY)
+
 
         # Criando o objeto que irá acessar o banco de dados
         self.sql = SQL(esquema='bd_gestao_visitantes')
