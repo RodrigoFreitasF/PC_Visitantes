@@ -37,7 +37,7 @@ class CRUDVisitantes(tk.Tk):
         self.et_nome.grid(row=1, column=1, columnspan=4, padx=self.PADX, pady=self.PADY, sticky="ew")
 
         self.bt_consultar = tk.Button(self, text="Consultar", command=self.consultar, font='Helvetica 12 bold',
-                                      fg='white', bg=self.ROXO, padx=self.PADX_BOTAO)
+                                      fg='white', bg=self.ROXO, padx=self.PADX_BOTAO, cursor="hand2")
         self.bt_consultar.grid(row=1, column=5, padx=self.PADX, pady=self.PADY, sticky="ew")
 
         # Treeview para exibir os resultado da consulta no banco de dados
@@ -73,19 +73,19 @@ class CRUDVisitantes(tk.Tk):
         frame_botoes.columnconfigure(3, weight=1)
 
         self.bt_voltar = tk.Button(frame_botoes, text="Voltar", command=self.voltar, font='Helvetica 12 bold',
-                                   fg='white', bg=self.ROXO)
+                                   fg='white', bg=self.ROXO, cursor="hand2")
         self.bt_voltar.grid(row=0, column=0, pady=self.PADY, sticky="ew")
 
         self.bt_cadastrar = tk.Button(frame_botoes, text="Cadastrar", command=self.cadastrar, font='Helvetica 12 bold',
-                                      fg='white', bg=self.ROXO)
+                                      fg='white', bg=self.ROXO, cursor="hand2")
         self.bt_cadastrar.grid(row=0, column=1, padx=(self.PADX, 0), pady=self.PADY, sticky="ew")
 
         self.bt_alterar = tk.Button(frame_botoes, text="Alterar", command=self.alterar, font='Helvetica 12 bold',
-                                    fg='white', bg=self.ROXO)
+                                    fg='white', bg=self.ROXO, cursor="hand2")
         self.bt_alterar.grid(row=0, column=2, padx=self.PADX, pady=self.PADY, sticky="ew")
 
         self.bt_excluir = tk.Button(frame_botoes, text="Excluir", command=self.excluir, font='Helvetica 12 bold',
-                                    fg='white', bg=self.ROXO)
+                                    fg='white', bg=self.ROXO, cursor="hand2")
         self.bt_excluir.grid(row=0, column=3, pady=self.PADY, sticky="ew")
 
         # Criando o objeto que irá acessar o banco de dados
@@ -110,9 +110,9 @@ class CRUDVisitantes(tk.Tk):
 
         self.limpar_tabela()
         for visitante in visitantes:
-            nome_acompanhante = visitante['nme_aluno_acompanhante'] if visitante['nme_aluno_acompanhante'] else ""
-            email_visitante = visitante['eml_visitante'] if visitante['eml_visitante'] else ""
-            pcd_visitante = visitante['pcd_visitante'] if visitante['pcd_visitante'] else ""
+            nome_acompanhante = visitante['nme_aluno_acompanhante'] if visitante['nme_aluno_acompanhante'] else "-"
+            email_visitante = visitante['eml_visitante'] if visitante['eml_visitante'] else "-"
+            pcd_visitante = visitante['pcd_visitante'] if visitante['pcd_visitante'] else "-"
             self.tre_visitantes.insert("", tk.END, values=(
                 visitante['idt_visitantes'], visitante['nme_visitante'], visitante['rg_visitante'],
                 email_visitante, pcd_visitante, nome_acompanhante))

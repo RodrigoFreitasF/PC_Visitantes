@@ -1,6 +1,7 @@
 from tkinter import messagebox, font
 import tkinter as tk
 
+from crud_ta_visitas.crud_ta_visita import CRUDta_visita
 from crud_tb_visitantes.crud_visitantes import CRUDVisitantes
 
 
@@ -42,7 +43,8 @@ class MainMenu(tk.Tk):
             font=self.button_font,
             bg=self.ROXO,
             fg='white',
-            relief=tk.FLAT
+            relief=tk.FLAT,
+            cursor="hand2"
         )
         logout_button.pack(side=tk.RIGHT, padx=20, pady=10)
 
@@ -99,7 +101,8 @@ class MainMenu(tk.Tk):
         parent.grid_rowconfigure(row, weight=1)
 
     def consultar_visitas(self):
-        messagebox.showinfo("Consultar Visitas", "Redirecionando para a tela de consulta de visitas.")
+        self.destroy()
+        CRUDta_visita()
 
     def consultar_visitantes(self):
         self.destroy()

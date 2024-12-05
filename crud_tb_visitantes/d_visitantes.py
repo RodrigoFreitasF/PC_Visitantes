@@ -106,7 +106,8 @@ class ExcluirVisitante:
         self.bt_excluir = tk.Button(self.popup, text="Excluir", command=lambda: self.excluir(janela_mestre),
                                     font='Helvetica 12 bold',
                                     fg='white',
-                                    bg=self.ROXO)
+                                    bg=self.ROXO,
+                                    cursor="hand2")
         self.bt_excluir.grid(row=linha, column=0, columnspan=4, padx=PADX, pady=PADY, sticky="ew")
         self.et_nome.focus()
 

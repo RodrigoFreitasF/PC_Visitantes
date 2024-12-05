@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk, font, messagebox
-from types import NoneType
 
 import bcrypt
 from login.cadastrar_usuario import CadastrarUsuario
@@ -77,7 +76,8 @@ class TelaLogin(tk.Tk):
             font=self.button_font,
             bg=self.ROXO,
             fg="white",
-            command=self.verificar_login
+            command=self.verificar_login,
+            cursor="hand2"
         )
         login_button.pack(pady=10, padx=40, fill=tk.X)
 
@@ -88,7 +88,8 @@ class TelaLogin(tk.Tk):
             font=self.label_font,
             bg="white",
             borderwidth=0,
-            command=self.cadastrar_usuario
+            command=self.cadastrar_usuario,
+            cursor="hand2"
         )
         register_button.pack(pady=1)
 

@@ -66,7 +66,7 @@ class IncluirVisitas:
 
         #Botão para incluir uma nova função
         self.bt_salvar = tk.Button(self.popup, text="Incluir nova visita", command=lambda: self.salvar(janela_mestre),
-                                   font=fonte_btn, fg='white', bg=cor_btn)
+                                   font=fonte_btn, fg='white', bg=cor_btn, cursor="hand2")
         self.bt_salvar.grid(row=7, column=0, columnspan=3, padx=PADX, pady=PADY)
         self.et_dta.focus()
 

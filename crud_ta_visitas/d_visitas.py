@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from datetime import datetime
 
+
 class ExcluirVisitas:
     def __init__(self, janela_mestre, idt):
         # Cria uma nova janela (pop-up)
@@ -66,7 +67,7 @@ class ExcluirVisitas:
         self.valor_var.set(horaef.strftime('%H:%M'))
 
         self.lb_dado_valor1 = tk.Label(self.popup, textvariable=self.valor_var, font='Helvetica 16 bold',
-                                      foreground=cor_dados)
+                                       foreground=cor_dados)
         self.lb_dado_valor1.grid(row=4, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         # Receber a hora de saida
@@ -80,14 +81,15 @@ class ExcluirVisitas:
         horasf = datetime.strptime(str(hora_sql2), '%H:%M:%S').time()
         self.valor_hra_saida.set(horasf.strftime('%H:%M'))
         self.lb_dado_valor2 = tk.Label(self.popup, textvariable=self.valor_hra_saida, font='Helvetica 16 bold',
-                                      foreground=cor_dados)
+                                       foreground=cor_dados)
         self.lb_dado_valor2.grid(row=5, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
         # Quinta Linha - Operação de Excluir
         self.bt_excluir = tk.Button(self.popup, text="Excluir o registro", command=lambda: self.excluir(janela_mestre),
                                     font='Helvetica 12 bold',
                                     fg='white',
-                                    bg=cor_btn)
+                                    bg=cor_btn,
+                                    cursor="hand2")
         self.bt_excluir.grid(row=6, column=0, columnspan=3, padx=PADX, pady=PADY)
         self.bt_excluir.focus()
 

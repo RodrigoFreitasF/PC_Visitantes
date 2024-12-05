@@ -5,6 +5,7 @@ import util.validate as val
 from tkcalendar import DateEntry
 from datetime import datetime
 
+
 class AlterarVisitas:
     def __init__(self, janela_mestre, idt):
         self.popup = tk.Toplevel(janela_mestre)
@@ -25,11 +26,12 @@ class AlterarVisitas:
         cmd = "SELECT * FROM ta_visitas WHERE idt_visitas = %s"
         funcao = janela_mestre.sql.get_object(cmd, [idt])
 
-        #Título
-        titulo = tk.Label(self.popup, text="Alterar Visita / Realizar Check-in", font='Helvetica 16 bold', fg=cor_titulo)
+        # Título
+        titulo = tk.Label(self.popup, text="Alterar Visita / Realizar Check-in", font='Helvetica 16 bold',
+                          fg=cor_titulo)
         titulo.grid(row=1, column=0, columnspan=3, padx=PADX, pady=PADY)
 
-        #Idt da visita (readonly)
+        # Idt da visita (readonly)
         lb_idt = tk.Label(self.popup, text="Identificador", font='Helvetica 12 bold', fg=cor_titulo)
         lb_idt.grid(row=2, column=0, padx=PADX, pady=PADY)
 
@@ -39,41 +41,44 @@ class AlterarVisitas:
                                 foreground=cor_dados, width=5, state="readonly")
         self.et_idt.grid(row=2, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
-        #Data de visita
+        # Data de visita
         lb_data = tk.Label(self.popup, text="Data de visita", font='Helvetica 12 bold', fg=cor_titulo)
         lb_data.grid(row=5, column=0, padx=PADX, pady=PADY)
 
         self.valor_data = tk.StringVar()
         self.valor_data.set((funcao['dta_visita']))
         self.et_data = DateEntry(self.popup, textvariable=self.valor_data, font='Helvetica 16 bold',
-                                width=10, date_pattern='dd/mm/yyyy', date_format='%d/%m/%Y', locale='pt_BR',firstweekday="sunday" ,
-                                foreground='#ec0089', weekendforeground='Red', weekendbackground='pink', headersforeground='#43054e',
-                                selectbackground='#ec0089')
+                                 width=10, date_pattern='dd/mm/yyyy', date_format='%d/%m/%Y', locale='pt_BR',
+                                 firstweekday="sunday",
+                                 foreground='#ec0089', weekendforeground='Red', weekendbackground='pink',
+                                 headersforeground='#43054e',
+                                 selectbackground='#ec0089')
         self.obrigatorios.append([self.et_data])
         self.et_data.grid(row=5, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
-        #Hora de entrada
+        # Hora de entrada
         lb_hra_ent = tk.Label(self.popup, text="Hora de Checkin", font='Helvetica 12 bold', fg=cor_titulo)
         lb_hra_ent.grid(row=6, column=0, padx=PADX, pady=PADY)
 
         self.valor_hra_ent = tk.StringVar()
-        self.et_hra_ent = ttk.Entry(self.popup, textvariable=self.valor_hra_ent, font='Helvetica 16 bold', foreground=cor_dados,
-                                 width=10)
+        self.et_hra_ent = ttk.Entry(self.popup, textvariable=self.valor_hra_ent, font='Helvetica 16 bold',
+                                    foreground=cor_dados,
+                                    width=10)
         self.obrigatorios.append([self.et_hra_ent])
         self.et_hra_ent.grid(row=6, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
-        #Alterar visitante
+        # Alterar visitante
         lb_visitante = tk.Label(self.popup, text="Codigo do Visitante", font='Helvetica 12 bold', fg=cor_titulo)
         lb_visitante.grid(row=8, column=0, padx=PADX, pady=PADY)
 
         self.valor_visitante = tk.StringVar()
         self.valor_visitante.set(funcao['cod_visitantes'])
         self.et_visitante = ttk.Entry(self.popup, textvariable=self.valor_visitante, font='Helvetica 16 bold',
-                                    foreground=cor_dados, width=10)
+                                      foreground=cor_dados, width=10)
         self.obrigatorios.append([self.et_visitante])
         self.et_visitante.grid(row=8, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
-        #Alterar Local
+        # Alterar Local
         lb_locais = tk.Label(self.popup, text="Codigo do local", font='Helvetica 12 bold', fg=cor_titulo)
         lb_locais.grid(row=9, column=0, padx=PADX, pady=PADY)
 
@@ -84,11 +89,12 @@ class AlterarVisitas:
         self.obrigatorios.append([self.et_locais])
         self.et_locais.grid(row=9, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
 
-        #Botão para salvar alterações
+        # Botão para salvar alterações
         self.bt_alterar = tk.Button(self.popup, text="Check-in", command=lambda: self.alterar(janela_mestre),
                                     font='Helvetica 12 bold',
                                     fg='white',
-                                    bg=cor_btn)
+                                    bg=cor_btn,
+                                    cursor="hand2")
         self.bt_alterar.grid(row=10, column=0, columnspan=3, padx=PADX, pady=PADY)
         self.et_idt.focus()
 

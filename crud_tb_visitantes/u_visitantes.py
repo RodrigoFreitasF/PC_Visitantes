@@ -121,7 +121,8 @@ class AlterarVisitante:
         self.bt_alterar = tk.Button(self.popup, text="Alterar", command=lambda: self.alterar(janela_mestre),
                                     font='Helvetica 12 bold',
                                     fg='white',
-                                    bg=self.ROXO)
+                                    bg=self.ROXO,
+                                    cursor="hand2")
         self.bt_alterar.grid(row=linha, column=0, columnspan=4, padx=PADX, pady=PADY, sticky="ew")
         self.et_nome.focus()
 

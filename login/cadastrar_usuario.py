@@ -69,7 +69,7 @@ class CadastrarUsuario:
 
         # Quinta linha - Botão para cadastrar um novo usuário
         self.bt_salvar = tk.Button(self.popup, text="Cadastrar", command=lambda: self.salvar(janela_mestre),
-                                   font='Helvetica 12 bold', fg='white', bg=self.ROXO)
+                                   font='Helvetica 12 bold', fg='white', bg=self.ROXO, cursor="hand2")
         self.bt_salvar.grid(row=4, column=0, columnspan=4, padx=self.PADX, pady=self.PADY, sticky="ew")
         self.et_nome.focus()
 
@@ -93,7 +93,6 @@ class CadastrarUsuario:
                    "VALUES (%s, %s, %s, %s)")
             print(senha_encriptografada)
             janela_mestre.sql.insert(cmd, (nome, status, senha_encriptografada, user))
-
 
             messagebox.showinfo("Sucesso", "Usuário cadastrado com sucesso!")
 
