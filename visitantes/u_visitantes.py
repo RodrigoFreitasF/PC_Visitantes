@@ -10,10 +10,11 @@ class AlterarVisitante:
         # Cria uma nova janela (pop-up)
         self.popup = tk.Toplevel(janela_mestre)
         self.popup.grab_set()
+        self.popup.iconbitmap("../ceub.ico")
 
         # Constantes
-        PADX = 10
-        PADY = 10
+        self.PADX = 10
+        self.PADY = 10
         self.ROXO = "#662c92"
 
         # Variáveis
@@ -31,23 +32,23 @@ class AlterarVisitante:
 
         # Primeira linha - Título
         titulo = tk.Label(self.popup, text="Alterar Visitante", font='Helvetica 16 bold', fg=self.ROXO)
-        titulo.grid(row=linha, column=0, columnspan=4, padx=PADX, pady=PADY)
+        titulo.grid(row=linha, column=0, columnspan=4, padx=self.PADX, pady=self.PADY)
         linha += 1
 
         # Segunda linha - Mostrar o identificador do visitante (readonly)
         lb_idt = tk.Label(self.popup, text="Identificador", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_idt.grid(row=linha, column=0, padx=PADX, pady=PADY)
+        lb_idt.grid(row=linha, column=0, padx=self.PADX, pady=self.PADY)
 
         self.idt_var = tk.StringVar()
         self.idt_var.set(funcao['idt_visitantes'])
         self.et_idt = ttk.Entry(self.popup, textvariable=self.idt_var, font='Helvetica 16 bold',
                                 foreground=self.ROXO, width=5, state="readonly")
-        self.et_idt.grid(row=linha, column=1, columnspan=2, padx=PADX, pady=PADY, sticky="W")
+        self.et_idt.grid(row=linha, column=1, columnspan=2, padx=self.PADX, pady=self.PADY, sticky="W")
         linha += 1
 
         # Terceira linha - Receber o Nome do Visitante
         lb_nome = tk.Label(self.popup, text="Nome", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_nome.grid(row=linha, column=0, padx=PADX, pady=PADY)
+        lb_nome.grid(row=linha, column=0, padx=self.PADX, pady=self.PADY)
 
         self.nome_var = tk.StringVar()
         self.nome_var.set(funcao['nme_visitante'])
@@ -55,12 +56,12 @@ class AlterarVisitante:
                                  foreground=self.ROXO, width=30)
         val.limitar_tamanho(self.et_nome, 45)
         self.obrigatorios.append([self.et_nome, lb_nome.cget('text')])
-        self.et_nome.grid(row=linha, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.et_nome.grid(row=linha, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
         linha += 1
 
         # Quarta linha - Receber o RG do visitante
         lb_rg = tk.Label(self.popup, text="RG", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_rg.grid(row=linha, column=0, padx=PADX, pady=PADY)
+        lb_rg.grid(row=linha, column=0, padx=self.PADX, pady=self.PADY)
 
         self.rg_var = tk.StringVar()
         self.rg_var.set(funcao['rg_visitante'])
@@ -68,36 +69,36 @@ class AlterarVisitante:
                                foreground=self.ROXO, width=30)
         val.limitar_tamanho(self.et_rg, 10)
         self.obrigatorios.append([self.et_rg, lb_rg.cget('text')])
-        self.et_rg.grid(row=linha, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.et_rg.grid(row=linha, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
         linha += 1
 
         # Quinta linha - Receber o Email do visitante
         lb_email = tk.Label(self.popup, text="Email", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_email.grid(row=linha, column=0, padx=PADX, pady=PADY)
+        lb_email.grid(row=linha, column=0, padx=self.PADX, pady=self.PADY)
 
         self.email_var = tk.StringVar()
         self.email_var.set(funcao['eml_visitante'] if funcao['eml_visitante'] else "")
         self.et_email = ttk.Entry(self.popup, textvariable=self.email_var, font='Helvetica 16 bold',
                                   foreground=self.ROXO, width=30)
         val.limitar_tamanho(self.et_email, 45)
-        self.et_email.grid(row=linha, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.et_email.grid(row=linha, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
         linha += 1
 
         # Sexta linha - Seleção PCD
         lb_pcd = tk.Label(self.popup, text="PCD", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_pcd.grid(row=linha, column=0, padx=PADX, pady=PADY)
+        lb_pcd.grid(row=linha, column=0, padx=self.PADX, pady=self.PADY)
 
         self.pcd_var = tk.StringVar()
         self.pcd_var.set(funcao['pcd_visitante'] if funcao['pcd_visitante'] else "")
         self.cb_pcd = ttk.Combobox(self.popup, textvariable=self.pcd_var, font='Helvetica 16 bold',
                                    foreground=self.ROXO, width=28, state="readonly")
         self.cb_pcd['values'] = ["Sim", "Não"]
-        self.cb_pcd.grid(row=linha, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.cb_pcd.grid(row=linha, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
         linha += 1
 
         # Sétima linha - Seleção do aluno acompanhante
         lb_acompanhante = tk.Label(self.popup, text="Acompanhante", font='Helvetica 12 bold', fg=self.ROXO)
-        lb_acompanhante.grid(row=linha, column=0, padx=PADX, pady=PADY)
+        lb_acompanhante.grid(row=linha, column=0, padx=self.PADX, pady=self.PADY)
 
         self.acompanhante_var = tk.StringVar()
         acompanhante = f"{funcao['idt_aluno_acompanhante']} - {funcao['nme_aluno_acompanhante']}" if funcao[
@@ -105,7 +106,7 @@ class AlterarVisitante:
         self.acompanhante_var.set(acompanhante)
         self.cb_acompanhante = ttk.Combobox(self.popup, textvariable=self.acompanhante_var, font='Helvetica 16 bold',
                                             width=28, state="readonly", foreground=self.ROXO)
-        self.cb_acompanhante.grid(row=linha, column=1, columnspan=3, padx=PADX, pady=PADY)
+        self.cb_acompanhante.grid(row=linha, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # Consultar o banco de dados para obter os acompanhantes
         cmd = "SELECT idt_aluno_acompanhante, nme_aluno_acompanhante FROM tb_aluno_acompanhante ORDER BY nme_aluno_acompanhante"
@@ -123,7 +124,7 @@ class AlterarVisitante:
                                     fg='white',
                                     bg=self.ROXO,
                                     cursor="hand2")
-        self.bt_alterar.grid(row=linha, column=0, columnspan=4, padx=PADX, pady=PADY, sticky="ew")
+        self.bt_alterar.grid(row=linha, column=0, columnspan=4, padx=self.PADX, pady=self.PADY, sticky="ew")
         self.et_nome.focus()
 
     # Botão para confirmar a alteração

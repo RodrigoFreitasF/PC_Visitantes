@@ -9,6 +9,7 @@ class CadastrarVisitante:
         # Cria uma nova janela (pop-up)
         self.popup = tk.Toplevel(janela_mestre)
         self.popup.grab_set()
+        self.popup.iconbitmap("../ceub.ico")
 
         # Constantes
         self.PADX = 10

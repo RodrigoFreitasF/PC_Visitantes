@@ -1,8 +1,9 @@
 from tkinter import messagebox, font
 import tkinter as tk
 
-from crud_ta_visitas.crud_ta_visita import CRUDta_visita
-from crud_tb_visitantes.crud_visitantes import CRUDVisitantes
+from locais.crud_locais import CRUDLocais
+from visitas.crud_ta_visita import CRUDVisitas
+from visitantes.crud_visitantes import CRUDVisitantes
 
 
 class MainMenu(tk.Tk):
@@ -15,6 +16,7 @@ class MainMenu(tk.Tk):
         self.title("Sistema de Gestão de Visitantes - Menu")
         self.geometry("800x500")
         self.resizable(False, False)
+        self.iconbitmap("../ceub.ico")
 
         self.title_font = font.Font(family="Arial", size=22, weight="bold")
         self.item_emoji_font = font.Font(family="Arial", size=50)
@@ -102,14 +104,15 @@ class MainMenu(tk.Tk):
 
     def consultar_visitas(self):
         self.destroy()
-        CRUDta_visita()
+        CRUDVisitas()
 
     def consultar_visitantes(self):
         self.destroy()
         CRUDVisitantes()
 
     def consultar_locais(self):
-        messagebox.showinfo("Gerenciar Locais", "Redirecionando para a tela de gerenciamento de locais.")
+        self.destroy()
+        CRUDLocais()
 
     def consultar_usuarios(self):
         messagebox.showinfo("Usuários do Sistema", "Redirecionando para a tela de gerenciamento de usuários.")

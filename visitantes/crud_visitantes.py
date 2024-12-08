@@ -2,9 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 
-from crud_tb_visitantes.c_visitantes import CadastrarVisitante
-from crud_tb_visitantes.d_visitantes import ExcluirVisitante
-from crud_tb_visitantes.u_visitantes import AlterarVisitante
+from visitantes.c_visitantes import CadastrarVisitante
+from visitantes.d_visitantes import ExcluirVisitante
+from visitantes.u_visitantes import AlterarVisitante
 from util.db import SQL
 
 
@@ -18,6 +18,7 @@ class CRUDVisitantes(tk.Tk):
         self.ROXO = "#662c92"
 
         self.title("Gerenciar Visitantes")
+        self.iconbitmap("../ceub.ico")
 
         # Configurar o grid para melhor controle do espaço
         self.grid_columnconfigure(0, weight=0)  # Coluna do "Nome do Visitante"

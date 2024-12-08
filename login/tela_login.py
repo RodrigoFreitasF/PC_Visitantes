@@ -13,6 +13,7 @@ class TelaLogin(tk.Tk):
 
         self.geometry("800x500")
         self.resizable(False, False)
+        self.iconbitmap("../ceub.ico")
 
         # Criação de constantes
         self.PADX = 20
