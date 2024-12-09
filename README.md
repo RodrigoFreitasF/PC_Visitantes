@@ -44,16 +44,7 @@ git clone https://github.com/KerubinSM5/PC_Visitantes/
 # Contribuidores
 
 <a href="https://github.com/kerubinsm5/kerubinsm5/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=kerubinsm5/kerubinsm5" />
-</a>
-<a href="https://github.com/Roddie118/Roddie118/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Roddie118/Roddie118" />
-</a>
-<a href="https://github.com/julianomorais-cs/cs-projects/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=julianomorais-cs/cs-projects" />
-</a>
-<a href="https://github.com/lucas-fmp/lucas-fmp/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=lucas-fmp/lucas-fmp" />
+  <img src="https://contrib.rocks/image?repo=kerubinsm5/PC_Visitantes" />
 </a>
 <a href="https://github.com/JoaoAdelson/Progresso-em-Python/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=JoaoAdelson/JoaoAdelson" />
