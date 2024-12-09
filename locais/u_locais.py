@@ -87,7 +87,6 @@ class AlterarLocal:
         self.bt_alterar.grid(row=linha, column=0, columnspan=4, padx=self.PADX, pady=self.PADY, sticky="ew")
         self.et_nome.focus()
 
-    # Botão para confirmar a alteração
     def alterar(self, janela_mestre):
         retorno = val.todos_campos_preenchidos(self.obrigatorios)
         if retorno[0]:
@@ -95,10 +94,8 @@ class AlterarLocal:
             campus_selecionado = self.campus_var.get()
             idt_campus = campus_selecionado.split(" - ")[0] if campus_selecionado else None
             idt_local = int(self.idt_var.get())
-            # Alterar os dados no banco de dados
-            cmd = ("UPDATE tb_locais SET nme_local = %s, cod_campus = %s WHERE idt_local = %s")
+            cmd = "UPDATE tb_locais SET nme_local = %s, cod_campus = %s WHERE idt_local = %s"
             janela_mestre.sql.upd_del(cmd, (nome, idt_campus, idt_local))
-            # Fechar a janela pop-up
             self.popup.destroy()
         else:
             messagebox.showerror("Erro: Campo(s) obrigatório(s)",

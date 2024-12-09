@@ -8,9 +8,10 @@ from util.db import SQL
 
 
 class CRUDLocais(tk.Tk):
-    def __init__(self):
+    def __init__(self, usuario_logado):
         super().__init__()
-        # Criação de constantes
+
+        self.usuario_logado = usuario_logado
         self.PADX = 20
         self.PADY = 10
         self.PADX_BOTAO = 30
@@ -88,7 +89,7 @@ class CRUDLocais(tk.Tk):
     def voltar(self):
         from menu_principal.tela_menu import MainMenu
         self.destroy()
-        MainMenu()
+        MainMenu(self.usuario_logado)
 
     def consultar(self):
         # Obter o termo de busca

@@ -2,14 +2,16 @@ from tkinter import messagebox, font
 import tkinter as tk
 
 from locais.crud_locais import CRUDLocais
+from usuarios.crud_usuarios import CRUDUsuarios
 from visitas.crud_ta_visita import CRUDVisitas
 from visitantes.crud_visitantes import CRUDVisitantes
 
 
 class MainMenu(tk.Tk):
-    def __init__(self):
+    def __init__(self, usuario_logado):
         super().__init__()
 
+        self.usuario_logado = usuario_logado
         self.ROXO_ESCURO = "#43054e"
         self.ROXO = "#662c92"
 
@@ -104,18 +106,25 @@ class MainMenu(tk.Tk):
 
     def consultar_visitas(self):
         self.destroy()
-        CRUDVisitas()
+        CRUDVisitas(self.usuario_logado)
 
     def consultar_visitantes(self):
         self.destroy()
-        CRUDVisitantes()
+        CRUDVisitantes(self.usuario_logado)
 
     def consultar_locais(self):
-        self.destroy()
-        CRUDLocais()
+        if self.usuario_logado['status'] == 'A':
+            self.destroy()
+            CRUDLocais(self.usuario_logado)
+        else:
+            messagebox.showinfo("Acesso negado!", "Você não tem permissão pra acessar essa área.")
 
     def consultar_usuarios(self):
-        messagebox.showinfo("Usuários do Sistema", "Redirecionando para a tela de gerenciamento de usuários.")
+        if self.usuario_logado['status'] == 'A':
+            self.destroy()
+            CRUDUsuarios(self.usuario_logado)
+        else:
+            messagebox.showinfo("Acesso negado!", "Você não tem permissão pra acessar essa área.")
 
     def logout(self):
         from login.tela_login import TelaLogin

@@ -9,9 +9,10 @@ from util.db import SQL
 
 
 class CRUDVisitantes(tk.Tk):
-    def __init__(self):
+    def __init__(self, usuario_logado):
         super().__init__()
         # Criação de constantes
+        self.usuario_logado = usuario_logado
         self.PADX = 20
         self.PADY = 10
         self.PADX_BOTAO = 30
@@ -95,7 +96,7 @@ class CRUDVisitantes(tk.Tk):
     def voltar(self):
         from menu_principal.tela_menu import MainMenu
         self.destroy()
-        MainMenu()
+        MainMenu(self.usuario_logado)
 
     def consultar(self):
         # Obter o termo de busca
@@ -146,13 +147,17 @@ class CRUDVisitantes(tk.Tk):
             messagebox.showerror("Erro: Escolha um visitante", "Marque uma linha da tabela para selecionar o visitante")
 
     def excluir(self):
-        idt = self.pegar_idt()
-        if idt != 0:
-            ExcluirVisitante(self, idt)
-            self.et_nome.delete(0, tk.END)
-            self.limpar_tabela()
+        if self.usuario_logado['status'] == 'A':
+            idt = self.pegar_idt()
+            if idt != 0:
+                ExcluirVisitante(self, idt)
+                self.et_nome.delete(0, tk.END)
+                self.limpar_tabela()
+            else:
+                messagebox.showerror("Erro: Escolha um visitante",
+                                     "Marque uma linha da tabela para selecionar o visitante")
         else:
-            messagebox.showerror("Erro: Escolha um visitante", "Marque uma linha da tabela para selecionar o visitante")
+            messagebox.showinfo("Erro: Sem permissão", "Você não tem permissão pra concluir essa ação.")
 
 
 if __name__ == '__main__':
