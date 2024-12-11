@@ -41,6 +41,8 @@ def gerar_relatorio_visitas():
     title.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     doc.add_paragraph('\n')
+    #para digitar texto no documento
+    doc.add_paragraph("Este é um documento de relatório para as visitas do CEUB.")
 
     # Tabela de visitas por mês
     doc.add_heading('Visitas por Mês', level=1)
