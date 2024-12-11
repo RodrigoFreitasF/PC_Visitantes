@@ -2,7 +2,9 @@ from tkinter import Tk, Label, Entry, Button, font, messagebox
 from openpyxl import Workbook
 from openpyxl.styles import Font, Alignment, PatternFill
 from openpyxl.chart import Reference, PieChart
+from openpyxl.chart.label import DataLabelList
 from util.db import SQL
+import os
 
 
 class RelatorioExcelTela(Tk):
@@ -17,7 +19,7 @@ class RelatorioExcelTela(Tk):
         self.resizable(False, False)
 
         self.font_title = font.Font(font='Helvetica 16 bold')
-        self.font_label = font.Font(family="Helvetica", size=12)
+        self.font_label = font.Font(family="Helvetica 16 bold")
         self.font_button = font.Font(family="Helvetica", size=12, weight="bold")
 
         self.create_widgets()
@@ -31,7 +33,7 @@ class RelatorioExcelTela(Tk):
         self.label_ano = Label(self, text="Ano: ",font=self.font_title, fg=self.ROXO)
         self.label_ano.grid(row=1, column=0, padx=self.PADX, pady=self.PADY, sticky='e')
 
-        self.entry_ano = Entry(self, font=self.font_label, width=15)
+        self.entry_ano = Entry(self, font=self.font_label, width=15, fg=self.ROXO)
         self.entry_ano.grid(row=1, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
 
         # botão para gerar o relatório
@@ -76,7 +78,7 @@ class RelatorioExcelTela(Tk):
         ws = wb.active
         ws.title = f"Relatório {ano}"
 
-        # Configurar cabeçalho
+        # configurar cabeçalho
         ws.append(["Mês", "Total de Visitas"])
         header_font = Font(bold=True, color="FFFFFF")
         header_fill = PatternFill(start_color="6A0DAD", end_color="6A0DAD", fill_type="solid")
@@ -109,7 +111,9 @@ class RelatorioExcelTela(Tk):
 
         # grafico
         chart = PieChart()
-        chart.title = "Visitas por Mês"
+        chart.style = 6
+
+
         data = Reference(ws, min_col=2, min_row=1, max_row=13, max_col=2)
         categories = Reference(ws, min_col=1, min_row=2, max_row=13)
         chart.add_data(data, titles_from_data=True)
@@ -125,6 +129,16 @@ class RelatorioExcelTela(Tk):
 
         messagebox.showinfo("Sucesso", f"Relatório salvo como '{arquivo_excel}'.")
 
+        # abrir o arquivo automaticamente
+        try:
+            if os.name == 'nt':  # Windows
+                os.startfile(arquivo_excel)
+            elif os.name == 'posix':  # macOS ou Linux
+                os.system(f'open {arquivo_excel}')  # Para macOS
+                # Para Linux, use: os.system(f'xdg-open {relatorio_path}')
+        except Exception as e:
+            print(f"Erro ao abrir o arquivo: {e}")
+        self.destroy()
 
 if __name__ == "__main__":
     app = RelatorioExcelTela()
