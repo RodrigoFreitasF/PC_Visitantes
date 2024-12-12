@@ -1,1 +1,0 @@
-#CRUD executável de tb_aluno_acompanhante

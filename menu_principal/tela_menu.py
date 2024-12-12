@@ -1,19 +1,26 @@
 from tkinter import messagebox, font
 import tkinter as tk
 
-from crud_tb_visitantes.crud_visitantes import CRUDVisitantes
+from crud_relatorios.crud_relatórios import CRUDRelatorios
+from extracao_excel.extracao_excel import RelatorioExcelTela
+from locais.crud_locais import CRUDLocais
+from usuarios.crud_usuarios import CRUDUsuarios
+from visitas.crud_ta_visita import CRUDVisitas
+from visitantes.crud_visitantes import CRUDVisitantes
 
 
 class MainMenu(tk.Tk):
-    def __init__(self):
+    def __init__(self, usuario_logado):
         super().__init__()
 
+        self.usuario_logado = usuario_logado
         self.ROXO_ESCURO = "#43054e"
         self.ROXO = "#662c92"
 
         self.title("Sistema de Gestão de Visitantes - Menu")
-        self.geometry("800x500")
+        self.geometry("800x700")
         self.resizable(False, False)
+        self.iconbitmap("../ceub.ico")
 
         self.title_font = font.Font(family="Arial", size=22, weight="bold")
         self.item_emoji_font = font.Font(family="Arial", size=50)
@@ -42,7 +49,8 @@ class MainMenu(tk.Tk):
             font=self.button_font,
             bg=self.ROXO,
             fg='white',
-            relief=tk.FLAT
+            relief=tk.FLAT,
+            cursor="hand2"
         )
         logout_button.pack(side=tk.RIGHT, padx=20, pady=10)
 
@@ -53,7 +61,9 @@ class MainMenu(tk.Tk):
             {"emoji": "📋", "title": "Gerenciar Visitas", "action": self.consultar_visitas},
             {"emoji": "👥", "title": "Gerenciar Visitantes", "action": self.consultar_visitantes},
             {"emoji": "🏢", "title": "Gerenciar Locais", "action": self.consultar_locais},
-            {"emoji": "🧑🏽", "title": "Usuários do Sistema", "action": self.consultar_usuarios},
+            {"emoji": "🧑\u200d💼", "title": "Usuários do Sistema", "action": self.consultar_usuarios},
+            {"emoji": "📄", "title": "Relatório Word", "action": self.gerar_relatorio_word},
+            {"emoji": "📊", "title": "Relatório Excel", "action": self.gerar_relatorio_excel},
         ]
 
         inner_frame = tk.Frame(menu_frame, bg='white')
@@ -99,17 +109,40 @@ class MainMenu(tk.Tk):
         parent.grid_rowconfigure(row, weight=1)
 
     def consultar_visitas(self):
-        messagebox.showinfo("Consultar Visitas", "Redirecionando para a tela de consulta de visitas.")
+        self.destroy()
+        CRUDVisitas(self.usuario_logado)
 
     def consultar_visitantes(self):
         self.destroy()
-        CRUDVisitantes()
+        CRUDVisitantes(self.usuario_logado)
 
     def consultar_locais(self):
-        messagebox.showinfo("Gerenciar Locais", "Redirecionando para a tela de gerenciamento de locais.")
+        if self.usuario_logado['status'] == 'A':
+            self.destroy()
+            CRUDLocais(self.usuario_logado)
+        else:
+            messagebox.showinfo("Acesso negado!", "Você não tem permissão pra acessar essa área.")
 
     def consultar_usuarios(self):
-        messagebox.showinfo("Usuários do Sistema", "Redirecionando para a tela de gerenciamento de usuários.")
+        if self.usuario_logado['status'] == 'A':
+            self.destroy()
+            CRUDUsuarios(self.usuario_logado)
+        else:
+            messagebox.showinfo("Acesso negado!", "Você não tem permissão pra acessar essa área.")
+
+    def gerar_relatorio_word(self):
+        if self.usuario_logado['status'] == 'A':
+            self.destroy()
+            CRUDRelatorios(self.usuario_logado)
+        else:
+            messagebox.showinfo("Acesso negado!", "Você não tem permissão pra acessar essa área.")
+
+    def gerar_relatorio_excel(self):
+        if self.usuario_logado['status'] == 'A':
+            self.destroy()
+            RelatorioExcelTela(self.usuario_logado)
+        else:
+            messagebox.showinfo("Acesso negado!", "Você não tem permissão pra acessar essa área.")
 
     def logout(self):
         from login.tela_login import TelaLogin

@@ -12,6 +12,7 @@ class CadastrarUsuario:
         # Cria uma nova janela (pop-up)
         self.popup = tk.Toplevel(janela_mestre)
         self.popup.grab_set()
+        self.popup.iconbitmap("../ceub.ico")
 
         # Constantes
         self.PADX = 10
@@ -57,23 +58,12 @@ class CadastrarUsuario:
         val.limitar_tamanho(self.et_senha, 45)
         self.et_senha.grid(row=3, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
 
-        # # Quinta linha - Seleção Status
-        # lb_status = tk.Label(self.popup, text="Status", font='Helvetica 12 bold', fg=self.ROXO)
-        # lb_status.grid(row=4, column=0, padx=self.PADX, pady=self.PADY)
-        #
-        # self.status_var = tk.StringVar()
-        # self.cb_status = ttk.Combobox(self.popup, textvariable=self.status_var, font='Helvetica 16 bold',
-        #                               foreground=self.ROXO, width=28, state="readonly")
-        # self.cb_status['values'] = ["Administrador", "Supervisor", "Recepção"]
-        # self.cb_status.grid(row=4, column=1, columnspan=3, padx=self.PADX, pady=self.PADY)
-
         # Quinta linha - Botão para cadastrar um novo usuário
         self.bt_salvar = tk.Button(self.popup, text="Cadastrar", command=lambda: self.salvar(janela_mestre),
-                                   font='Helvetica 12 bold', fg='white', bg=self.ROXO)
+                                   font='Helvetica 12 bold', fg='white', bg=self.ROXO, cursor="hand2")
         self.bt_salvar.grid(row=4, column=0, columnspan=4, padx=self.PADX, pady=self.PADY, sticky="ew")
         self.et_nome.focus()
 
-    # Botão para confirmar a inclusão
     def salvar(self, janela_mestre):
         retorno = val.todos_campos_preenchidos(self.obrigatorios)
         if retorno[0]:
@@ -82,18 +72,11 @@ class CadastrarUsuario:
             senha = self.senha_var.get()
             senha_encriptografada = bcrypt.hashpw(senha.encode('utf-8'), bcrypt.gensalt())
             status = "R"
-            # status = self.status_var.get()
-            # match status:
-            #     case "Administrador" : status = "A"
-            #     case "Supervisor" : status = "S"
-            #     case "Recepção" : status = "R"
 
             cmd = ("INSERT INTO "
                    "tb_usuarios (nme_usuario, sts_usuario, pwd_usuario, crd_usuario) "
                    "VALUES (%s, %s, %s, %s)")
-            print(senha_encriptografada)
             janela_mestre.sql.insert(cmd, (nome, status, senha_encriptografada, user))
-
 
             messagebox.showinfo("Sucesso", "Usuário cadastrado com sucesso!")
 
