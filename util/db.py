@@ -2,7 +2,7 @@ import mysql.connector
 
 
 class SQL:
-    def __init__(self, servidor='localhost', usr='root', pwd='senha', esquema='bd_planejamento'):
+    def __init__(self, servidor='localhost', usr='root', pwd='ceub123456', esquema='bd_gestão_visitantes'):
         self.cnx = mysql.connector.connect(host=servidor,
                                            user=usr,
                                            password=pwd,

@@ -130,7 +130,7 @@ class RelatorioExcelTela(Tk):
 
         # grafico
         chart = PieChart()
-        chart.style = 6
+        chart.style = 2
 
         data = Reference(ws, min_col=2, min_row=1, max_row=13, max_col=2)
         categories = Reference(ws, min_col=1, min_row=2, max_row=13)
@@ -150,12 +150,13 @@ class RelatorioExcelTela(Tk):
         # abrir o arquivo automaticamente
         try:
             if os.name == 'nt':
+                self.voltar()
                 os.startfile(arquivo_excel)
             elif os.name == 'posix':
                 os.system(f'open {arquivo_excel}')
         except Exception as e:
             print(f"Erro ao abrir o arquivo: {e}")
-        self.destroy()
+
 
     def voltar(self):
         from menu_principal.tela_menu import MainMenu

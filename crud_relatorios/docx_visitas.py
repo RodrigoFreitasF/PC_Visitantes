@@ -7,6 +7,7 @@ from docx.oxml.ns import qn
 from docx.shared import Inches
 from util.db import SQL
 
+
 def gerar_relatorio_visitas():
     # conexão com o banco de dados
     sql = SQL(esquema='bd_gestao_visitantes')
@@ -117,11 +118,12 @@ def gerar_relatorio_visitas():
     print(f"Relatório salvo como '{relatorio_path}'.")
 
     # abre o arquivo automaticamente
+
     try:
-        if os.name == 'nt':  # Windows
+        if os.name == 'nt':
             os.startfile(relatorio_path)
-        elif os.name == 'posix':  # macOS ou Linux
-            os.system(f'open {relatorio_path}')  # Para macOS
-            # Para Linux, use: os.system(f'xdg-open {relatorio_path}')
+        elif os.name == 'posix':
+            os.system(f'open {relatorio_path}')
+
     except Exception as e:
         print(f"Erro ao abrir o arquivo: {e}")

@@ -63,7 +63,7 @@ class CRUDRelatorios(tk.Tk):
         back_button.pack(fill=tk.X, pady=10)
 
     def extrair_relatorio_word(self):
-        self.destroy()
+
         gerar_relatorio_visitas()
 
     def voltar_menu(self):
