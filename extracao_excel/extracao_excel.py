@@ -149,11 +149,10 @@ class RelatorioExcelTela(Tk):
 
         # abrir o arquivo automaticamente
         try:
-            if os.name == 'nt':  # Windows
+            if os.name == 'nt':
                 os.startfile(arquivo_excel)
-            elif os.name == 'posix':  # macOS ou Linux
-                os.system(f'open {arquivo_excel}')  # Para macOS
-                # Para Linux, use: os.system(f'xdg-open {relatorio_path}')
+            elif os.name == 'posix':
+                os.system(f'open {arquivo_excel}')
         except Exception as e:
             print(f"Erro ao abrir o arquivo: {e}")
         self.destroy()
