@@ -39,10 +39,19 @@ class CadastrarVisitas:
         lb_hra_ent = tk.Label(self.popup, text="Hora de entrada", font='Helvetica 12 bold', fg=self.ROXO)
         lb_hra_ent.grid(row=2, column=0, padx=self.PADX, pady=self.PADY)
 
+        self.hora_frame = tk.Frame(self.popup)
+        self.hora_frame.grid(row=2, column=1, padx=self.PADX, pady=self.PADY, sticky="w")
+
         self.valor_hra_ent = tk.StringVar()
-        self.et_hra_ent = ttk.Entry(self.popup, textvariable=self.valor_hra_ent, font='Helvetica 12',
-                                    foreground=self.ROXO, width=self.WIDTH)
-        self.et_hra_ent.grid(row=2, column=1, padx=self.PADX, pady=self.PADY, sticky="w")
+        self.et_hra_ent = ttk.Entry(self.hora_frame, textvariable=self.valor_hra_ent, font='Helvetica 12',
+                                    foreground=self.ROXO, width=15)
+        self.et_hra_ent.grid(row=0, column=0, padx=(0, 5), sticky="w")
+
+        self.check_pendente_var = tk.BooleanVar()
+        self.check_pendente = ttk.Checkbutton(self.hora_frame, text="Check-in pendente",
+                                              variable=self.check_pendente_var, onvalue=True, offvalue=False,
+                                              command=self.toggle_hra_ent)
+        self.check_pendente.grid(row=0, column=1, sticky="w")
 
         # Quarta linha - Código do visitante
         lb_visitante = tk.Label(self.popup, text="Visitante", font='Helvetica 12 bold', fg=self.ROXO)
@@ -87,6 +96,12 @@ class CadastrarVisitas:
                                    font='Helvetica 12 bold', fg='white', bg=self.ROXO, cursor="hand2")
         self.bt_salvar.grid(row=5, column=0, columnspan=2, padx=self.PADX, pady=self.PADY, sticky="ew")
         self.et_dta.focus()
+
+    def toggle_hra_ent(self):
+        if self.check_pendente_var.get():
+            self.et_hra_ent.configure(state="disabled")
+        else:
+            self.et_hra_ent.configure(state="normal")
 
     def salvar(self, janela_mestre):
         retorno = val.todos_campos_preenchidos(self.obrigatorios)

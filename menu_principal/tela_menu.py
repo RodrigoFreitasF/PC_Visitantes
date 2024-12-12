@@ -1,6 +1,8 @@
 from tkinter import messagebox, font
 import tkinter as tk
 
+from crud_relatorios.crud_relatórios import CRUDRelatorios
+from extracao_excel.extracao_excel import RelatorioExcelTela
 from locais.crud_locais import CRUDLocais
 from usuarios.crud_usuarios import CRUDUsuarios
 from visitas.crud_ta_visita import CRUDVisitas
@@ -16,7 +18,7 @@ class MainMenu(tk.Tk):
         self.ROXO = "#662c92"
 
         self.title("Sistema de Gestão de Visitantes - Menu")
-        self.geometry("800x500")
+        self.geometry("800x700")
         self.resizable(False, False)
         self.iconbitmap("../ceub.ico")
 
@@ -59,7 +61,9 @@ class MainMenu(tk.Tk):
             {"emoji": "📋", "title": "Gerenciar Visitas", "action": self.consultar_visitas},
             {"emoji": "👥", "title": "Gerenciar Visitantes", "action": self.consultar_visitantes},
             {"emoji": "🏢", "title": "Gerenciar Locais", "action": self.consultar_locais},
-            {"emoji": "🧑🏽", "title": "Usuários do Sistema", "action": self.consultar_usuarios},
+            {"emoji": "🧑\u200d💼", "title": "Usuários do Sistema", "action": self.consultar_usuarios},
+            {"emoji": "📄", "title": "Relatório Word", "action": self.gerar_relatorio_word},
+            {"emoji": "📊", "title": "Relatório Excel", "action": self.gerar_relatorio_excel},
         ]
 
         inner_frame = tk.Frame(menu_frame, bg='white')
@@ -123,6 +127,20 @@ class MainMenu(tk.Tk):
         if self.usuario_logado['status'] == 'A':
             self.destroy()
             CRUDUsuarios(self.usuario_logado)
+        else:
+            messagebox.showinfo("Acesso negado!", "Você não tem permissão pra acessar essa área.")
+
+    def gerar_relatorio_word(self):
+        if self.usuario_logado['status'] == 'A':
+            self.destroy()
+            CRUDRelatorios(self.usuario_logado)
+        else:
+            messagebox.showinfo("Acesso negado!", "Você não tem permissão pra acessar essa área.")
+
+    def gerar_relatorio_excel(self):
+        if self.usuario_logado['status'] == 'A':
+            self.destroy()
+            RelatorioExcelTela(self.usuario_logado)
         else:
             messagebox.showinfo("Acesso negado!", "Você não tem permissão pra acessar essa área.")
 
