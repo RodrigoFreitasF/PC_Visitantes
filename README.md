@@ -21,13 +21,13 @@ O projeto realizado simula um sistema de gerenciamento do fluxo de visitas e do 
 
 * Em um terminal, clone o repositório do projeto usando a seguinte URL no git:
 ```
-git clone https://github.com/KerubinSM5/PC_Visitantes/
+git clone https://github.com/RodrigoFreitasF/PC_Visitantes/
 ```
 * No Pycharm:
 1. Selecione a opção "Get from VCS" e marque o Version Control para Git
 2. Insira a URL do repositório no campo indicado e clique em "Clone":
 ```
-   https://github.com/KerubinSM5/PC_Visitantes/
+   https://github.com/RodrigoFreitasF/PC_Visitantes/
 ```
 3. Após o carregamento, clique em "Trust project", o Pycharm abrirá o repositório em seguida.
 
